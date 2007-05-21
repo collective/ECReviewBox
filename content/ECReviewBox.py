@@ -1,0 +1,278 @@
+# -*- coding: utf-8 -*-
+# $Id$
+#
+# Copyright (c) 2007 Otto-von-Guericke-Universität Magdeburg
+#
+# This file is part of ECReviewBox.
+
+# Zope imports
+from AccessControl import ClassSecurityInfo
+from DateTime import DateTime
+
+# Plone imports
+from Products.Archetypes.atapi import *
+
+#from Products.Archetypes.public import BooleanField
+#from Products.Archetypes.public import ReferenceField
+
+#from Products.Archetypes.public import BooleanWidget
+#from Products.Archetypes.public import ReferenceWidget
+
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+
+from Products.ATContentTypes.content.base import registerATCT
+from Products.ATContentTypes.content.base import updateActions, updateAliases
+from Products.ATContentTypes.content.schemata import finalizeATCTSchema
+
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import log_exc, log
+
+# Other product imports
+from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBox
+from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBoxSchema
+from Products.ECAssignmentBox import permissions
+
+from Products.ECAutoAssessmentBox.ECAutoAssessmentBox import ECAutoAssessmentBox
+
+# DataGridField imports
+from Products.DataGridField import DataGridField, DataGridWidget
+from Products.DataGridField.Column import Column
+from Products.DataGridField.SelectColumn import SelectColumn
+
+
+# Local product imports
+from Products.ECReviewBox.config import *
+
+try:
+    # use ECAssignmentBox's schema and modifiy it
+    ECReviewBoxSchema = ECAssignmentBoxSchema.copy() 
+    
+    ECReviewBoxSchema['assignment_reference'].widget.visible = {
+        'view' : 'invisible',
+        'edit' : 'invisible'
+    }
+except Exception, e:
+    pass
+
+ECReviewBoxSchema = Schema((
+
+    ReferenceField(
+        'referencedBox',
+        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssessmentBox.meta_type),
+        #allowed_types_method = 'getAllowedRefTypes',
+        multiValued = False,
+        required = True,
+        relationship = 'RelReference',
+        #searchable = True,
+        widget = ReferenceBrowserWidget(
+            label='Referenced assignment box',
+            label_msgid='label_reference_box',
+            description_msgid='help_reference_box',
+            description='All (accepted or graded) assignments insed selected assignment box will be used for the peer review.',
+            i18n_domain=I18N_DOMAIN,
+            allow_search = True,
+            show_indexes = False,
+        ),
+    ),
+
+    DataGridField(
+        'allocations',
+        columns = ('user', 'orig_user', 'orig_path', 'orig_submission', ),
+        #required = True,
+        searchable = False,
+        widget = DataGridWidget(
+            modes = ('view'),
+            #visible = {'view':'invisible', 'edit':'invisible'},
+            label_msgid = 'label_allocations',
+            label = "Allocated assignments",
+            description_msgid = 'help_allocations',
+            description = """Shows users and allocated assignments from the referenced box""",
+            i18n_domain = I18N_DOMAIN,
+            columns = {
+                'user':Column("User"),
+                'orig_user':Column("Original user"),
+                'orig_path':Column("Original path"),
+                'orig_submission':Column("Original submission"),
+                #'xyz':SelectColumn("Xyz", vocabulary="getXyzVocab"),
+            },
+        ),
+        # let only box owner and manager read the data grid 
+        read_permission = permissions.ModifyPortalContent,
+    ),
+
+#    #FIXME: What is this filed used for?
+#    BooleanField(
+#        'origAsAnswer',
+#        default = False,
+#        #required = True,
+#        widget = BooleanWidget(
+#            label = 'Use original assignment as answer template',
+#            label_msgid = 'label_orig_as_answer',
+#            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box.',
+#            description_msgid = 'help_orig_as_answer',
+#            i18n_domain = I18N_DOMAIN,
+#        ),
+#        read_permission = permissions.ModifyPortalContent,
+#    ),
+
+)) + ECReviewBoxSchema
+
+#finalizeATCTSchema(ECReviewBoxSchema, folderish=True, moveDiscussion=False)
+finalizeATCTSchema(ECReviewBoxSchema, folderish=True,)
+
+
+class ECReviewBox(ECAssignmentBox):
+    """Assignments for peer reviewing"""
+
+    __implements__ = (ECAssignmentBox.__implements__,)
+    security = ClassSecurityInfo()
+
+    schema = ECReviewBoxSchema
+
+    portal_type = meta_type = ECRB_META
+    archetype_name = ECRB_TITLE
+    content_icon = ECRB_ICON
+
+    #typeDescMsgId   = 'description_ecrb'
+    typeDescription  = 'Enables the creation of online assignments for peer reviewing.'
+
+    default_view = 'ecrb_view'
+    immediate_view = 'ecrb_view'
+
+    # following attributes are defined in the super class 
+    #filter_content_types = True
+    #allowed_content_types = [ECReview.meta_type]
+
+    _at_rename_after_creation = True
+
+    # -- actions --------------------------------------------------------------
+    actions = updateActions(ECAssignmentBox, (
+        {
+        'action':      "string:$object_url/ecrb_allocations_view",
+        'id':          'allocations',
+        'name':        'Allocations',
+        'permissions': (permissions.ManageProperties,),
+        },
+    ))
+
+    aliases = updateAliases(ECAssignmentBox, {
+        'view': 'ecrb_view',
+        })
+
+
+    # -- methods --------------------------------------------------------------
+
+    # overwrite the archetypes edit method
+    security.declareProtected(permissions.ModifyPortalContent, 'processForm')
+    def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
+        """
+        """
+        BaseFolder.processForm(self, data=data, metadata=metadata,
+                               REQUEST=REQUEST, values=values)
+ 
+        log('xxx: here we ware in processForm.')
+
+        # get the referenced assignment ‚box
+        referencedBox  = self.getReferencedBox()
+        log('getReferencedBox: %s' % repr(referencedBox))
+        
+        if referencedBox:
+            self._allocate(referencedBox)
+
+            
+    security.declarePublic('getAllocatedSubmission')
+    def getAllocatedSubmission(self, user_id):
+        """
+        Return the submission text for the given user or None, if user_id 
+        isn't in the list of enabled users.
+        """
+        datagrid = self.getField('allocations')
+        
+        return datagrid.search(self, user=user_id)
+
+
+    security.declareProtected(permissions.ModifyPortalContent, 'reAllocate')
+    def reAllocate(self):
+        """
+        TODO:
+        """
+        log('xxx: here we ware in reAllocate.')
+
+        self._allocate(self.getReferencedBox())
+    
+
+    security.declarePrivate('_allocate')
+    def _allocate(self, referencedBox):
+        """
+        Get all (accepted or graded) assignments in the referenced assignment 
+        box and re-assign each submission to a new user.
+
+        TODO: implement a better allocation algorithm (play dice)
+        
+        @param referencedBox: the referenced assignment boxs  
+        """
+        
+        if not referencedBox:
+            log('referencedBox is %s' % repr(referencedBox))
+            return
+        
+        #log('referencedBox: %s' % repr(referencedBox.getPhysicalPath()))
+
+        # lets use the catalog to get all assignments inside the referenced 
+        # assignment box
+        catalog = getToolByName(self, 'portal_catalog')
+    
+        brains = catalog.searchResults(
+            path = {'query':'/'.join(referencedBox.getPhysicalPath()), 'depth':1,},
+        )
+        
+        # reset current allocations    
+        self.allocations = ()
+
+        users = []
+        submissions = []
+        
+        # walk through all submissions
+        for brain in brains:
+            # filter only accepted or graded assignments
+            if brain.review_state in ('accepted', 'graded'):
+                # get the real object
+                assignment = brain.getObject()
+                
+                creator = assignment.Creator()
+                #path = (hasattr(assignment, 'getPath') and assignment.getPath()) or '/'.join(assignment.getPhysicalPath())
+                path = '/'.join(assignment.getPhysicalPath())
+                answer = str(assignment.get_data())
+                #answer = assignment.getAsPlainText()
+
+                #log('creator: %s' % creator)
+                #log('path: %s' % path)
+                #log('answer: %s' % answer)
+
+                # allow readable submissions only
+                if answer:
+                    # add all user to a separate list
+                    users.append(creator)
+                    # add all users and submission to another list
+                    submissions.append({'orig_user': creator, 
+                                        'orig_path': path, 
+                                        'orig_submission': answer,
+                                        })
+
+        # lets dice: user 1 gets the submission of user 2 and so on; the last 
+        # user in the list finally gets the original submission of user 1
+        for user in users:
+            if len(submissions) != 1:
+                entry = submissions.pop(1)
+            else:
+                entry = submissions.pop()
+                
+            entry['user'] = user
+
+            self.allocations += (entry, )
+
+        # that's all there is to it!
+        return
+            
+
+registerATCT(ECReviewBox, PRODUCT_NAME)
