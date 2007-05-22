@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ECReviewBox\n"
-"POT-Creation-Date: 2006-01-12 12:59+0000\n"
+"POT-Creation-Date: 2007-05-21 23:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,177 +17,16 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: eduComponents\n"
 
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_validate.vpy
-msgid "Please correct the indicated errors."
+#: ./skins/ECReviewBox/ecrb_view.cpt
+# Original: "Original assignment text"
+msgid "original_assignment_text"
 msgstr ""
 
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_save.cpy
-msgid "Your changes have been saved."
+#: ./skins/ECReviewBox/ecrb_view.cpt
+# Original: "Submissions are not allowed because you have not submitted
+#            for the original assignment."
+msgid "user_not_enabled"
 msgstr ""
+            
 
 
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_validate.vpy
-msgid "Your settings are valid."
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <p i18n:translate="description_ecspooler_setup">
-#.  ECSpooler settings.
-#. </p>
-# Original: "ECSpooler settings."
-msgid "description_ecspooler_setup"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div i18n:translate="error_host" tal:condition="error" tal:content="error">
-#.  Error message
-#. </div>
-# Original: "Error message"
-msgid "error_host"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div i18n:translate="error_password" tal:condition="error" tal:content="error">
-#.  Error message
-#. </div>
-# Original: "Error message"
-msgid "error_password"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div i18n:translate="error_port" tal:condition="error" tal:content="error">
-#.  Error message
-#. </div>
-# Original: "Error message"
-msgid "error_port"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div i18n:translate="error_username" tal:condition="error" tal:content="error">
-#.  Error message
-#. </div>
-# Original: "Error message"
-msgid "error_username"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <h1 i18n:translate="heading_ecspooler_setup">
-#.  ECSpooler Setup
-#. </h1>
-# Original: "ECSpooler Setup"
-msgid "heading_ecspooler_setup"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div class="formHelp" i18n:translate="help_host">
-#.               Enter name of a host which provides a spooler server (e.g. lls.cs.uni-magdeburg.de).
-#. </div>
-# Original: "Enter name of a host which provides a spooler server (e.g. lls.cs.uni-magdeburg.de)."
-msgid "help_host"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div class="formHelp" i18n:translate="help_port">
-#.               Enter port number where the spooler server is listening (e.g. 8000).
-#. </div>
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div class="formHelp" i18n:translate="help_port">
-#.               Enter username to authorize requests to the spooler server.
-#. </div>
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <div class="formHelp" i18n:translate="help_port">
-#.               Enter password to authorize requests to the spooler server.
-#. </div>
-# Original: "Enter port number where the spooler server is listening (e.g. 8000)."
-msgid "help_port"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <label i18n:translate="label_host">
-#.  Host
-#. </label>
-# Original: "Host"
-msgid "label_host"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <label i18n:translate="label_port">
-#.  Port
-#. </label>
-# Original: "Port"
-msgid "label_port"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <a class="link-parent" href="" i18n:translate="label_up_to_plone_setup" tal:attributes="href string: $portal_url/plone_control_panel">
-#.         Up to Plone Setup
-#. </a>
-# Original: "Up to Plone Setup"
-msgid "label_up_to_plone_setup"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <label i18n:translate="label_username">
-#.  Username
-#. </label>
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <label i18n:translate="label_username">
-#.  Password
-#. </label>
-# Original: "Username"
-msgid "label_username"
-msgstr ""
-
-
-#: .\skins\ECAutoCheckAssignmentBox\ecspooler_prefs_form.cpt
-#. <legend i18n:translate="legend_ecspooler_details">
-#.             ECSpooler Details
-#. </legend>
-# Original: "ECSpooler Details"
-msgid "legend_ecspooler_details"
-msgstr ""
-
-#: .\skins\ECAutoCheckAssignmentBox\prefs_spooler_form.cpt
-#. <div class="formHelp" i18n:translate="help_backend_details"
-#.   tal:content="string:In the left box you will find all backends 
-#.                 currently available by the spooler service at 
-#.                 '${host}:${port}'. Select one or more backends and 
-#.                 add them to the list of accessible backends for 
-#.                 your site."
-#.             />
-# Original: "In the left box you..."
-msgid "help_backend_details"
-msgstr ""
-
-#: ./skins/ECReviewBox/ecaa_recheck.cpy
-# Original: "Submission has been rechecked."
-msgid "submission_rechecked"
-msgstr ""
-
-#: ECReview.py
-# Original: "Automatically accept assignments"
-msgid "label_auto_accept"
-msgstr ""
-
-#: ECReview.py
-# Original: "If selected, an assignment which passes all tests will be automatically accepted."
-msgid "help_auto_accept"
-msgstr ""
-
-#: ECReview.py
-# Original: "Submission has been accepted."
-msgid "submission_accepted"
-msgstr ""
