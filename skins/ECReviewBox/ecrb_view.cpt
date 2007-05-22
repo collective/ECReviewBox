@@ -110,7 +110,7 @@
         -->
         <dl class="collapsible collapsedBlockCollapsible">
           <dt class="collapsibleHeader"
-              i18n:translate="orig_assignment_text">
+              i18n:translate="original_assignment_text">
             Original assignment text
           </dt>
           <dd class="collapsibleContent">
