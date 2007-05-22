@@ -47,6 +47,8 @@ try:
     # use ECAssignmentBox's schema and modifiy it
     ECReviewBoxSchema = ECAssignmentBoxSchema.copy() 
     
+    # we hide the field assignment_reference because it is
+    # unsuitable for review boxes
     ECReviewBoxSchema['assignment_reference'].widget.visible = {
         'view' : 'invisible',
         'edit' : 'invisible'
@@ -133,15 +135,11 @@ class ECReviewBox(ECAssignmentBox):
     archetype_name = ECRB_TITLE
     content_icon = ECRB_ICON
 
-    #typeDescMsgId   = 'description_ecrb'
-    typeDescription  = 'Enables the creation of online assignments for peer reviewing.'
+    typeDescMsgId = 'description_ecrb'
+    typeDescription = 'Enables the creation of online assignments for peer reviewing.'
 
     default_view = 'ecrb_view'
     immediate_view = 'ecrb_view'
-
-    # following attributes are defined in the super class 
-    #filter_content_types = True
-    #allowed_content_types = [ECReview.meta_type]
 
     _at_rename_after_creation = True
 
@@ -170,11 +168,11 @@ class ECReviewBox(ECAssignmentBox):
         BaseFolder.processForm(self, data=data, metadata=metadata,
                                REQUEST=REQUEST, values=values)
  
-        log('xxx: here we ware in processForm.')
+        #log('xxx: here we ware in processForm.')
 
         # get the referenced assignment ‚box
         referencedBox  = self.getReferencedBox()
-        log('getReferencedBox: %s' % repr(referencedBox))
+        #log('getReferencedBox: %s' % repr(referencedBox))
         
         if referencedBox:
             self._allocate(referencedBox)
@@ -227,23 +225,29 @@ class ECReviewBox(ECAssignmentBox):
         )
         
         # reset current allocations    
-        self.allocations = ()
-
+        self.allocations = []
+        
         users = []
         submissions = []
         
         # walk through all submissions
         for brain in brains:
+            # get creator's unique name
+            creator = brain.Creator
+            # add all user to a separate list, this means everyone who submitted
+            # an assignment takes part at the peer review
+            users.append(creator)
+
             # filter only accepted or graded assignments
             if brain.review_state in ('accepted', 'graded'):
                 # get the real object
                 assignment = brain.getObject()
                 
-                creator = assignment.Creator()
                 #path = (hasattr(assignment, 'getPath') and assignment.getPath()) or '/'.join(assignment.getPhysicalPath())
                 path = '/'.join(assignment.getPhysicalPath())
-                answer = str(assignment.get_data())
+
                 #answer = assignment.getAsPlainText()
+                answer = str(assignment.get_data())
 
                 #log('creator: %s' % creator)
                 #log('path: %s' % path)
@@ -251,25 +255,40 @@ class ECReviewBox(ECAssignmentBox):
 
                 # allow readable submissions only
                 if answer:
-                    # add all user to a separate list
-                    users.append(creator)
                     # add all users and submission to another list
                     submissions.append({'orig_user': creator, 
                                         'orig_path': path, 
                                         'orig_submission': answer,
                                         })
+                    
+        # ensure that 'users' is a list of unique names
+        users = dict(map(lambda i: (i, 1), users)).keys()
+        #log('unique user list: %s' % repr(users))
 
         # lets dice: user 1 gets the submission of user 2 and so on; the last 
         # user in the list finally gets the original submission of user 1
+        allocations = []
+        
         for user in users:
-            if len(submissions) != 1:
-                entry = submissions.pop(1)
-            else:
-                entry = submissions.pop()
+            #log('user: %s' % user)
+            #log('len(submissions): %s' % len(submissions))
+            
+            if len(submissions) > 0:
+                row = submissions.pop(0)
+                submissions.append(row.copy())
                 
-            entry['user'] = user
+                # ensure that no user gets his/her own original submission
+                if user == row['orig_user']:
+                    row = submissions.pop(0)
+                    submissions.append(row.copy())
+                
+                row['user'] = user
+                
+                #log('user: %s | orig_user: %s' % (entry['user'], entry['orig_user']))
+                allocations.append(row)
 
-            self.allocations += (entry, )
+        #self.allocations = allocations
+        self.getField('allocations').set(self, allocations)
 
         # that's all there is to it!
         return
