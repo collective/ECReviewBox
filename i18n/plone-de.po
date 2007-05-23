@@ -16,8 +16,12 @@ msgstr ""
 "Domain: plone\n"
 "X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
 
+#: ./content/ECReviewBox.py
+# Original: "Enables the creation of online assignments for peer reviewing"
+msgid "description_ecrb"
+msgstr "Ermöglicht die Erstellung von Aufgaben für die gegenseitige Begutachtung"
 
 #: ./content/ECReviewBox.py
-# Original: "Allocated assignments"
-msgid "label_allocations"
-msgstr "Zuordnung der Einreichungen"
+# Original: "Allocations"
+msgid "Allocations"
+msgstr "Zuordnung"

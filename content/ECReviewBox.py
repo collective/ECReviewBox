@@ -67,10 +67,10 @@ ECReviewBoxSchema = Schema((
         relationship = 'RelReference',
         #searchable = True,
         widget = ReferenceBrowserWidget(
-            label='Referenced assignment box',
             label_msgid='label_reference_box',
+            label='Referenced assignment box',
             description_msgid='help_reference_box',
-            description='All (accepted or graded) assignments insed selected assignment box will be used for the peer review.',
+            description='All (accepted resp. graded) submissions inside selected assignment box will be used for the peer review',
             i18n_domain=I18N_DOMAIN,
             allow_search = True,
             show_indexes = False,
@@ -110,7 +110,7 @@ ECReviewBoxSchema = Schema((
 #        widget = BooleanWidget(
 #            label = 'Use original assignment as answer template',
 #            label_msgid = 'label_orig_as_answer',
-#            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box.',
+#            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box',
 #            description_msgid = 'help_orig_as_answer',
 #            i18n_domain = I18N_DOMAIN,
 #        ),
@@ -136,7 +136,7 @@ class ECReviewBox(ECAssignmentBox):
     content_icon = ECRB_ICON
 
     typeDescMsgId = 'description_ecrb'
-    typeDescription = 'Enables the creation of online assignments for peer reviewing.'
+    typeDescription = 'Enables the creation of online assignments for peer reviewing'
 
     default_view = 'ecrb_view'
     immediate_view = 'ecrb_view'
@@ -168,7 +168,7 @@ class ECReviewBox(ECAssignmentBox):
         BaseFolder.processForm(self, data=data, metadata=metadata,
                                REQUEST=REQUEST, values=values)
  
-        #log('xxx: here we ware in processForm.')
+        #log('xxx: here we ware in processForm')
 
         # get the referenced assignment ‚box
         referencedBox  = self.getReferencedBox()
@@ -194,7 +194,7 @@ class ECReviewBox(ECAssignmentBox):
         """
         TODO:
         """
-        log('xxx: here we ware in reAllocate.')
+        log('xxx: here we ware in reAllocate')
 
         self._allocate(self.getReferencedBox())
     

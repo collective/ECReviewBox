@@ -16,6 +16,27 @@ msgstr ""
 "Domain: eduComponents\n"
 "X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
 
+#: ./content/ECReviewBox.py
+# Original: "Allocated assignments"
+msgid "label_allocations"
+msgstr "Zuordnung der Einreichungen"
+
+#: ./content/ECReviewBox.py
+# Original: "Shows users and allocated assignments from the referenced box"
+msgid "help_allocations"
+msgstr "Zeigt Benutzer und die ihnen zugeordneten Einreichungen"
+
+#: ./content/ECReviewBox.py
+# Original: "Referenced assignment box"
+msgid "label_reference_box"
+msgstr "Referenzierte Aufgabe"
+
+#: ./content/ECReviewBox.py
+# Original: "All (accepted resp. graded) submissions inside selected assignment 
+#            box will be used for the peer review."
+msgid "help_reference_box"
+msgstr "Alle (akzeptierten bzw. benoteten) Einreichungen in der referenzierten Aufgabe werden für die Begutachtung herangezogen"
+
 #: ./skins/ECReviewBox/ecrb_view.cpt
 # Original: "Original assignment text"
 msgid "original_assignment_text"

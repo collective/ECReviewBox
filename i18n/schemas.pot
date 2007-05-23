@@ -21,3 +21,19 @@ msgstr ""
 # Original: "Allocated assignments"
 msgid "label_allocations"
 msgstr ""
+
+#: ./content/ECReviewBox.py
+# Original: "Shows users and allocated assignments from the referenced box"
+msgid "help_allocations"
+msgstr ""
+
+#: ./content/ECReviewBox.py
+# Original: "Referenced assignment box"
+msgid "label_reference_box"
+msgstr ""
+
+#: ./content/ECReviewBox.py
+# Original: "All (accepted resp. graded) submissions inside selected assignment 
+#            box will be used for the peer review"
+msgid "help_reference_box"
+msgstr ""
