@@ -125,7 +125,15 @@
         <p/>
         
         <div class="field">
+
+          <i tal:condition="not:submission"
+             i18n:translate="user_not_enabled">
+            Submissions are not allowed because you have not submitted for
+            the original assignment.
+          </i>
+
           <pre tal:condition="submission" tal:content="python:submission[0].get('orig_submission', '')" />
+
         </div>        
         
         <a href="" 
@@ -198,15 +206,6 @@
           <!-- hidden fields -->
           <input type="hidden" name="form.submitted" value="1" />
         </form>
-
-      
-        <div class="field">
-          <i tal:condition="not:submission"
-             i18n:translate="user_not_enabled">
-            Submissions are not allowed because you have not submitted for
-            the original assignment.
-          </i>
-        </div>
 
         <div class="field visualNoPrint">
           <i tal:condition="python: not isPublished or not isEffective"
