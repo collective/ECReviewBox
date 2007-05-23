@@ -104,6 +104,16 @@
 		<div class="field"
 			tal:content="structure here/getAssignment_text"/>
       
+        <div class="field">
+          <i tal:condition="not:submission"
+             i18n:translate="user_not_enabled">
+            Submissions are not allowed because you have not submitted for
+            the original assignment.
+          </i>
+
+          <pre tal:condition="submission" tal:content="python:submission[0].get('orig_submission', '')" />
+        </div>        
+        
         <!-- 
         display text of the referenced assignment box (original assignment)
         in a collapsible box
@@ -123,19 +133,7 @@
         </dl>
         
         <p/>
-        
-        <div class="field">
 
-          <i tal:condition="not:submission"
-             i18n:translate="user_not_enabled">
-            Submissions are not allowed because you have not submitted for
-            the original assignment.
-          </i>
-
-          <pre tal:condition="submission" tal:content="python:submission[0].get('orig_submission', '')" />
-
-        </div>        
-        
         <a href="" 
           tal:attributes="href string:${here/absolute_url}/downloadAnswerTemplate"
           i18n:translate="label_download_answer_template"
