@@ -135,8 +135,8 @@ class ECReviewBox(ECAssignmentBox):
     archetype_name = ECRB_TITLE
     content_icon = ECRB_ICON
 
-    typeDescMsgId = 'description_ecrb'
     typeDescription = 'Enables the creation of online assignments for peer reviewing'
+    typeDescMsgId = 'description_edit_ecrb'
 
     default_view = 'ecrb_view'
     immediate_view = 'ecrb_view'
