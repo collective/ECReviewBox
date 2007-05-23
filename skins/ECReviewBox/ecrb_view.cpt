@@ -118,7 +118,9 @@
         display text of the referenced assignment box (original assignment)
         in a collapsible box
         -->
-        <dl class="collapsible collapsedBlockCollapsible">
+        <dl class="collapsible collapsedBlockCollapsible"
+            tal:condition="reference"
+        >
           <dt class="collapsibleHeader"
               i18n:translate="original_assignment_text">
             Original assignment text
