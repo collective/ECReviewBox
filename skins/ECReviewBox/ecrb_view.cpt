@@ -29,7 +29,9 @@
                       canRetry      python: here.canRetry();
 					  tries_left    python: here.getMaxTries() - here.getTries();
 					  reference     here/getReferencedBox;
-                      submission    python: here.getAllocatedSubmission(user_id)">
+                      submission    python: here.getAllocatedSubmission(user_id);
+                      needRegistration python: (hasattr(here, 'associatedGroup') and here.getAssociatedGroup()) or False;
+                      canParticipate python: (needRegistration and here.isParticipant(user_id)) or (not needRegistration);">
                       
         <!-- debug -->
         <!--
@@ -208,6 +210,10 @@
         </form>
 
         <div class="field visualNoPrint">
+          <i tal:condition="python: not canParticipate"
+             i18n:translate="submission_cannot_participate">
+            Submission not permitted: You are not enrolled in this course.</i>
+
           <i tal:condition="python: not isPublished or not isEffective"
              i18n:translate="submission_period_not_effective">
             Submissions are not yet allowed.
