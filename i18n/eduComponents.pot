@@ -28,5 +28,8 @@ msgstr ""
 msgid "user_not_enabled"
 msgstr ""
             
-
+#: ./skins/ECReviewBox/ecrb_allocations_view.cpt
+# Original: "Shuffle Allocations"
+msgid "shuffle allocations"
+msgstr ""
 

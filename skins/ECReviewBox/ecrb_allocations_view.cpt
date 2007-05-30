@@ -36,6 +36,24 @@
         Up one level
         </a>
 
+		   <form action=""
+                method="post"
+                name="all_assignments_form">
+            <div class="formControls visualNoPrint">    
+	          	<input class="standalone"
+    	                 type="submit"
+        	             name="ShuffleAllocations"
+            	         value="shuffle allocations"
+                	     tabindex=""
+                    	 i18n:attributes="value"
+	                     tal:attributes="tabindex tabindex/next;"
+    	          />
+    	     <span tal:omit-tag="" tal:condition="python: request.get('ShuffleAllocations', None)"
+    	     tal:attributes="allocate here/reAllocate" />
+    	     </div>
+           </form>
+           <br />
+
         <div class="visualClear"/>
 
           <tal:field define="field python: here.getField('allocations');">

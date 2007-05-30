@@ -47,3 +47,8 @@ msgstr "Ursprüngliche Aufgabe"
 #            for the original assignment."
 msgid "user_not_enabled"
 msgstr "Einreichungen sind nicht möglich, da Sie zur ursprünglichen Aufgabe keine Lösung eingereicht haben."
+
+#: ./skins/ECReviewBox/ecrb_allocations_view.cpt
+# Original: "Shuffle Allocations"
+msgid "shuffle allocations"
+msgstr "Zuordnungen Mischen"

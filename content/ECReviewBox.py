@@ -4,6 +4,8 @@
 # Copyright (c) 2007 Otto-von-Guericke-Universität Magdeburg
 #
 # This file is part of ECReviewBox.
+from random import randint
+from random import randint
 
 # Zope imports
 from AccessControl import ClassSecurityInfo
@@ -32,7 +34,7 @@ from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBox
 from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBoxSchema
 from Products.ECAssignmentBox import permissions
 
-from Products.ECAutoAssessmentBox.ECAutoAssessmentBox import ECAutoAssessmentBox
+from Products.ECAutoAssignmentBox.ECAutoAssignmentBox import ECAutoAssignmentBox
 
 # DataGridField imports
 from Products.DataGridField import DataGridField, DataGridWidget
@@ -60,7 +62,7 @@ ECReviewBoxSchema = Schema((
 
     ReferenceField(
         'referencedBox',
-        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssessmentBox.meta_type),
+        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssignmentBox.meta_type),
         #allowed_types_method = 'getAllowedRefTypes',
         multiValued = False,
         required = True,
@@ -205,8 +207,6 @@ class ECReviewBox(ECAssignmentBox):
         Get all (accepted or graded) assignments in the referenced assignment 
         box and re-assign each submission to a new user.
 
-        TODO: implement a better allocation algorithm (play dice)
-        
         @param referencedBox: the referenced assignment boxs  
         """
         
@@ -269,24 +269,54 @@ class ECReviewBox(ECAssignmentBox):
         # user in the list finally gets the original submission of user 1
         allocations = []
         
-        for user in users:
-            #log('user: %s' % user)
-            #log('len(submissions): %s' % len(submissions))
-            
-            if len(submissions) > 0:
-                row = submissions.pop(0)
-                submissions.append(row.copy())
+        # prevent neverending loop if only one submission exists
+        if len(submissions) == 1:
+            row = submissions.pop(0)
+            row['user'] = users[0]
+            allocations.append(row)
+        # in any other case: lets roll the dices
+        else:
+            for user in users:
+                #log('user: %s' % user)
+                #log('len(submissions): %s' % len(submissions))
                 
-                # ensure that no user gets his/her own original submission
-                if user == row['orig_user']:
+                if len(submissions) > 0:
+                    row = submissions.pop(randint(0, len(submissions)-1))
+                    
+                    # ensure that the last remaining pair won't match
+                    if len(submissions) == 1:
+                        #log('users[len(users)-1] = %s' % users[len(users)-1])
+                        #log('submissions[0]["orig_user"] = %s' % submissions[0]['orig_user'])
+                        if users[len(users)-1] == submissions[0]['orig_user']:
+                            submissions.append(row.copy())
+                            row = submissions.pop(0)
+                    
+                    # ensure that no user gets his/her own original submission
+                    elif user == row['orig_user']:
+                        #log('len(submissions) = %s' % len(submissions))
+                        row2 = submissions.pop(randint(0, len(submissions)-1))
+                        submissions.append(row.copy())
+                        row = row2                        
+        
+                    row['user'] = user
+                    allocations.append(row)
+                            
+                '''
+                if len(submissions) > 0:
                     row = submissions.pop(0)
                     submissions.append(row.copy())
-                
-                row['user'] = user
-                
-                #log('user: %s | orig_user: %s' % (entry['user'], entry['orig_user']))
-                allocations.append(row)
-
+    
+                    # ensure that no user gets his/her own original submission
+                    if user == row['orig_user']:
+                        row = submissions.pop(0)
+                        submissions.append(row.copy())
+    
+                    row['user'] = user
+    
+                    #log('user: %s | orig_user: %s' % (entry['user'], entry['orig_user']))
+                    allocations.append(row)
+                    '''
+                    
         #self.allocations = allocations
         self.getField('allocations').set(self, allocations)
 
