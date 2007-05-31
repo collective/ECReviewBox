@@ -34,7 +34,7 @@ from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBox
 from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBoxSchema
 from Products.ECAssignmentBox import permissions
 
-from Products.ECAutoAssignmentBox.ECAutoAssignmentBox import ECAutoAssignmentBox
+from Products.ECAutoAssessmentBox.ECAutoAssessmentBox import ECAutoAssessmentBox
 
 # DataGridField imports
 from Products.DataGridField import DataGridField, DataGridWidget
@@ -62,7 +62,7 @@ ECReviewBoxSchema = Schema((
 
     ReferenceField(
         'referencedBox',
-        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssignmentBox.meta_type),
+        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssessmentBox.meta_type),
         #allowed_types_method = 'getAllowedRefTypes',
         multiValued = False,
         required = True,
