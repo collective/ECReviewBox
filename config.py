@@ -36,9 +36,14 @@ DEPENDENCIES = ['ECAssignmentBox', 'DataGridField']
 PRODUCT_NAME = 'ECReviewBox'
 
 ECRB_NAME  = 'ECReviewBox'
-ECRB_TITLE = 'Review Box'
+ECRB_TITLE = 'Peer-Review Box'
 ECRB_META  = ECRB_NAME
 ECRB_ICON  = 'ecrb.png'
+
+ECR_NAME  = 'ECReview'
+ECR_TITLE = 'Peer-Review'
+ECR_META  = ECR_NAME
+#ECR_ICON  = 'ecr.png'
 
 # define permissions
 ACCESS_PERMISSION = permissions.AccessContentsInformation

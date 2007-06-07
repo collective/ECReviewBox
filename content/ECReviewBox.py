@@ -44,6 +44,7 @@ from Products.DataGridField.SelectColumn import SelectColumn
 
 # Local product imports
 from Products.ECReviewBox.config import *
+from Products.ECReviewBox.content.ECReview import *
 
 try:
     # use ECAssignmentBox's schema and modifiy it
@@ -145,6 +146,9 @@ class ECReviewBox(ECAssignmentBox):
 
     _at_rename_after_creation = True
 
+    filter_content_types = 1
+    allowed_content_types = [ECReview.meta_type]
+
     # -- actions --------------------------------------------------------------
     actions = updateActions(ECAssignmentBox, (
         {
@@ -175,8 +179,9 @@ class ECReviewBox(ECAssignmentBox):
         # get the referenced assignment ‚box
         referencedBox  = self.getReferencedBox()
         #log('getReferencedBox: %s' % repr(referencedBox))
+        log('allocations: %s' % repr(self.allocations))
         
-        if referencedBox:
+        if referencedBox and not self.allocations:
             self._allocate(referencedBox)
 
             
@@ -198,7 +203,7 @@ class ECReviewBox(ECAssignmentBox):
         """
         log('xxx: here we ware in reAllocate')
 
-        self._allocate(self.getReferencedBox())
+        return self._allocate(self.getReferencedBox())
     
 
     security.declarePrivate('_allocate')
@@ -209,6 +214,7 @@ class ECReviewBox(ECAssignmentBox):
 
         @param referencedBox: the referenced assignment boxs  
         """
+        log('xxx: here we ware in _allocate')
         
         if not referencedBox:
             log('referencedBox is %s' % repr(referencedBox))
@@ -229,6 +235,7 @@ class ECReviewBox(ECAssignmentBox):
         
         users = []
         submissions = []
+        subsBackup = []
         
         # walk through all submissions
         for brain in brains:
@@ -276,7 +283,9 @@ class ECReviewBox(ECAssignmentBox):
             allocations.append(row)
         # in any other case: lets roll the dices
         else:
+            
             for user in users:
+                
                 #log('user: %s' % user)
                 #log('len(submissions): %s' % len(submissions))
                 
@@ -297,10 +306,15 @@ class ECReviewBox(ECAssignmentBox):
                         row2 = submissions.pop(randint(0, len(submissions)-1))
                         submissions.append(row.copy())
                         row = row2                        
-        
+                    
+                    subsBackup.append(row.copy())        
+                    
                     row['user'] = user
                     allocations.append(row)
-                            
+
+                else:
+                    submissions = subsBackup
+                    subsBackup = []
                 '''
                 if len(submissions) > 0:
                     row = submissions.pop(0)

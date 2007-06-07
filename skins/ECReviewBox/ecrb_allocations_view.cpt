@@ -36,35 +36,45 @@
         Up one level
         </a>
 
-		   <form action=""
-                method="post"
-                name="all_assignments_form">
-            <div class="formControls visualNoPrint">    
-	          	<input class="standalone"
-    	                 type="submit"
-        	             name="ShuffleAllocations"
-            	         value="shuffle allocations"
-                	     tabindex=""
-                    	 i18n:attributes="value"
-	                     tal:attributes="tabindex tabindex/next;"
-    	          />
-    	     <span tal:omit-tag="" tal:condition="python: request.get('ShuffleAllocations', None)"
-    	     tal:attributes="allocate here/reAllocate" />
-    	     </div>
-           </form>
-           <br />
+        <form action=""
+              method="post"
+              name="ecrb_allocations_form"
+              tal:attributes="action string:${here/absolute_url}/${template/getId}"
+        >
+  
+          <div class="formControls visualNoPrint">    
+            <input class="standalone"
+                   type="submit"
+        	       name="form.button.ShuffleAllocations"
+	               value="Shuffle Allocations"
+                   i18n:domain="plone"
+                   i18n:attributes="value"
+                   tal:attributes="tabindex tabindex/next;"
+            />
+
+          <!-- hidden fields -->
+          <input type="hidden" name="form.submitted" value="1" />
+
+           <!--
+           <span tal:omit-tag="" tal:condition="python: request.get('ShuffleAllocations', None)"
+           tal:attributes="allocate here/reAllocate" />
+           -->
+           </div>
+        </form>
+
+        <br />
 
         <div class="visualClear"/>
 
-          <tal:field define="field python: here.getField('allocations');">
-            <tal:view define="mode string:view;
-                              use_label python:True;
-                              accessor python:field.getAccessor(here);
-                              object python:accessor();"
-                condition="object | object/get_data | object/data | nothing" >
-              <metal:use use-macro="here/widgets/field/macros/view" />
-            </tal:view>
-          </tal:field>
+        <tal:field define="field python: here.getField('allocations');">
+          <tal:view define="mode string:view;
+                            use_label python:True;
+                            accessor python:field.getAccessor(here);
+                            object python:accessor();"
+              condition="object | object/get_data | object/data | nothing" >
+            <metal:use use-macro="here/widgets/field/macros/view" />
+          </tal:view>
+        </tal:field>
  
         <div metal:use-macro="here/document_byline/macros/byline">
           Get the byline - contains details about author and modification date.
