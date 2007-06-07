@@ -28,6 +28,23 @@ def installDependencies(self, out):
             out.write("Warnig: Depending product '%s' ist not installable." %
                       product)
 
+def setupWorkflow(self, out):
+    """
+    Assign ECAutoAssignement objects to ec_assignment_workflow.
+    """
+    
+    wf_tool = getToolByName(self, 'portal_workflow')
+    
+    if 'ec_assignment_workflow' in wf_tool.objectIds():
+        wf_tool.setChainForPortalTypes((ECR_NAME,), ECA_WF_NAME)
+    
+        # in case the workflows have changed, update all workflow-aware objects
+        wf_tool.updateRoleMappings()
+    
+        out.write("Assigned '%s' to %s.\n" % (ECR_TITLE, ECA_WF_NAME))
+
+    else:
+        out.write("Failed to assign '%' to %s.\n" % (ECR_TITLE, ECA_WF_NAME))
 
 def install(self):
     """
@@ -45,6 +62,7 @@ def install(self):
     install_subskin(self, out, GLOBALS)
 
     # install workflows
+    setupWorkflow(self, out)
     
     # install tools
 

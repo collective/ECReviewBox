@@ -201,8 +201,6 @@ class ECReviewBox(ECAssignmentBox):
         """
         TODO:
         """
-        log('xxx: here we ware in reAllocate')
-
         return self._allocate(self.getReferencedBox())
     
 
@@ -214,7 +212,6 @@ class ECReviewBox(ECAssignmentBox):
 
         @param referencedBox: the referenced assignment boxs  
         """
-        log('xxx: here we ware in _allocate')
         
         if not referencedBox:
             log('referencedBox is %s' % repr(referencedBox))
@@ -289,32 +286,36 @@ class ECReviewBox(ECAssignmentBox):
                 #log('user: %s' % user)
                 #log('len(submissions): %s' % len(submissions))
                 
-                if len(submissions) > 0:
-                    row = submissions.pop(randint(0, len(submissions)-1))
-                    
-                    # ensure that the last remaining pair won't match
-                    if len(submissions) == 1:
-                        #log('users[len(users)-1] = %s' % users[len(users)-1])
-                        #log('submissions[0]["orig_user"] = %s' % submissions[0]['orig_user'])
-                        if users[len(users)-1] == submissions[0]['orig_user']:
-                            submissions.append(row.copy())
-                            row = submissions.pop(0)
-                    
-                    # ensure that no user gets his/her own original submission
-                    elif user == row['orig_user']:
-                        #log('len(submissions) = %s' % len(submissions))
-                        row2 = submissions.pop(randint(0, len(submissions)-1))
-                        submissions.append(row.copy())
-                        row = row2                        
-                    
-                    subsBackup.append(row.copy())        
-                    
-                    row['user'] = user
-                    allocations.append(row)
-
-                else:
+                if len(submissions) == 0:
                     submissions = subsBackup
                     subsBackup = []
+
+                row = submissions.pop(randint(0, len(submissions)-1))
+                
+                
+                # ensure that no user gets his/her own original submission
+                if user == row['orig_user']:
+                    #log('len(submissions) = %s' % len(submissions))
+                    row2 = submissions.pop(randint(0, len(submissions)-1))
+                    submissions.append(row.copy())
+                    row = row2    
+                    
+                    
+                # ensure that the last remaining pair won't match
+                elif len(submissions) == 1:
+                    
+                    log('users[len(users)-1] = %s' % users[len(users)-1])
+                    log('submissions[0]["orig_user"] = %s' % submissions[0]['orig_user'])
+                    
+                    if users[len(users)-1] == submissions[0]['orig_user']:
+                        submissions.append(row.copy())
+                        row = submissions.pop(0)                    
+                
+                subsBackup.append(row.copy())        
+                
+                row['user'] = user
+                allocations.append(row)
+
                 '''
                 if len(submissions) > 0:
                     row = submissions.pop(0)

@@ -25,16 +25,17 @@
         <!-- show header information -->
         <metal:use use-macro="here/base_macros/macros/eca_view_head" />
 
+        <label>
+          <span i18n:translate="original">Original</span>:
+        </label>
+        <pre tal:condition="submission" tal:content="python:submission[0].get('orig_submission', '')" />
+
         <!-- print all relevant fields -->    
         <tal:fields repeat="fieldName fieldNames">
           <tal:field define="field python:here.getField(fieldName);">
             <metal:use use-macro="here/base_macros/macros/base_view" />
           </tal:field>
         </tal:fields>
-        
-        <pre tal:condition="submission" tal:content="python:submission[0].get('orig_submission', '')" />
-
-        <span>bla und blubber</span>
 
         <div metal:use-macro="here/document_byline/macros/byline" />
 
