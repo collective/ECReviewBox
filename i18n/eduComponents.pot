@@ -33,3 +33,7 @@ msgstr ""
 msgid "shuffle allocations"
 msgstr ""
 
+#: ./skins/ECReviewBox/ecrb_macros.pt
+# Original: "Original submission"
+msgid "label_original_submission"
+msgstr ""

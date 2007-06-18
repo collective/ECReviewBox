@@ -51,4 +51,9 @@ msgstr "Einreichungen sind nicht möglich, da Sie zur ursprünglichen Aufgabe ke
 #: ./skins/ECReviewBox/ecrb_allocations_view.cpt
 # Original: "Shuffle Allocations"
 msgid "shuffle allocations"
-msgstr "Zuordnungen Mischen"
+msgstr "Zuordnungen mischen"
+
+#: ./skins/ECReviewBox/ecrb_macros.pt
+# Original: "Original submission"
+msgid "label_original_submission"
+msgstr "Ursprüngliche Einreichung"
