@@ -1,0 +1,9 @@
+[default]
+title = Grade Code Review (see also eca_grade in ECAssignmentBox)
+
+[validators]
+validators=eca_grade_validate
+
+[actions]
+action.success=traverse_to:string:content_edit
+action.failure=redirect_to:string:ecr_grade
