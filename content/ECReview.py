@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # $Id$
 #
-# Copyright (c) 2005 Otto-von-Guericke-University, Magdeburg
+# Copyright (c) 2007 Otto-von-Guericke-University, Magdeburg
 #
-# This file is part of ECAutoAssessmentBox.
+# This file is part of ECReviewBox.
 
 # Pythone imports
 
@@ -30,19 +30,31 @@ class ECReview(ECAssignment):
     __implements__ = (ECAssignment.__implements__,)
     security = ClassSecurityInfo()
 
-    schema = ECAssignment.schema
+    #schema = ECAssignment.schema
     portal_type = meta_type = ECR_META
     archetype_name = ECR_TITLE
 
     default_view   = 'ecr_view'
     immediate_view = 'ecr_view'
 
-    filter_content_types = 1
-    allowed_content_types = [ECAssignment.meta_type]
+    typeDescription = "A submission to a review box."
+    typeDescMsgId = 'description_edit_ecr'
 
     # -- actions --------------------------------------------------------------
+    actions = updateActions(ECAssignment, (
+        {
+        'action':      "string:$object_url/ecr_grade",
+        'category':    "object",
+        'id':          'grade',
+        'name':        'Grade',
+        'permissions': (permissions.ModifyPortalContent,),
+        'condition':   'python:1'
+        },
+        ))
+
     aliases = updateAliases(ECAssignment, {
         'view': 'ecr_view',
+        'grade': 'ecr_grade',
         })
 
 
