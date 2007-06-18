@@ -16,19 +16,13 @@
 
     <metal:main fill-slot="main">
       <tal:main-macro metal:define-macro="main"
-          define="fieldNames here/getViewModeReadFieldNames;
-                  parent     python: here.aq_parent;
-                  user_id    here/Creator;
-                  submission python: parent.getAllocatedSubmission(user_id)
-                  ">
+          define="fieldNames here/getViewModeReadFieldNames;">
 
         <!-- show header information -->
         <metal:use use-macro="here/base_macros/macros/eca_view_head" />
 
-        <label>
-          <span i18n:translate="original">Original</span>:
-        </label>
-        <pre tal:condition="submission" tal:content="python:submission[0].get('orig_submission', '')" />
+        <!-- show orig submission information -->
+        <metal:use use-macro="here/ecrb_macros/macros/orig_submission_view" />
 
         <!-- print all relevant fields -->    
         <tal:fields repeat="fieldName fieldNames">
