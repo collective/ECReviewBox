@@ -105,20 +105,19 @@ ECReviewBoxSchema = Schema((
         read_permission = permissions.ModifyPortalContent,
     ),
 
-#    #FIXME: What is this filed used for?
-#    BooleanField(
-#        'origAsAnswer',
-#        default = False,
-#        #required = True,
-#        widget = BooleanWidget(
-#            label = 'Use original assignment as answer template',
-#            label_msgid = 'label_orig_as_answer',
-#            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box',
-#            description_msgid = 'help_orig_as_answer',
-#            i18n_domain = I18N_DOMAIN,
-#        ),
-#        read_permission = permissions.ModifyPortalContent,
-#    ),
+    BooleanField(
+        'origAsAnswer',
+        default = False,
+        #required = True,
+        widget = BooleanWidget(
+            label = 'Use original assignment as answer template',
+            label_msgid = 'label_orig_as_answer',
+            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box',
+            description_msgid = 'help_orig_as_answer',
+            i18n_domain = I18N_DOMAIN,
+        ),
+        read_permission = permissions.ModifyPortalContent,
+    ),
 
 )) + ECReviewBoxSchema
 
