@@ -2,15 +2,15 @@
 
 Overview
 
-  ECReviewBox is a Plone product derived from ECAssignmentBox 
-  and provides special support for peer-reviewing assignments. 
+  ECReviewBox is a Plone product that implements peer reviews for
+  assignments created with ECAssignmentBox.
 
 
 Download
 
-  * "Project page":http://wwwai.cs.uni-magdeburg.de/software/ecrb
+  * "Project page":http://wwwai.cs.uni-magdeburg.de/software/
 
-  * "plone.org products page":http://plone.org/products/ecrb
+  * "plone.org products page":http://plone.org/products/ecreviewbox
 
 
 Prerequisites
@@ -18,6 +18,10 @@ Prerequisites
   To use ECReviewBox you need a Plone 2.1.x or 2.5.x installation.  
   Check "plone.org":http://plone.org/products/plone for Plone's
   prerequisites.
+
+  Since ECReviewBox inhertits from ECAssignmentBox, you also need to
+  install the
+  "ECAssignmentBox":http://plone.org/products/ecassignmentbox product.
 
 
 Installation
@@ -46,8 +50,8 @@ Support
 Credits
 
   ECReviewBox was written by "Mario
-  Amelung":http://wwwai.cs.uni-magdeburg.de/Members/amelung and
-  "Marcel Abou Khalil":mailto:.
+  Amelung":http://wwwai.cs.uni-magdeburg.de/Members/amelung and Marcel
+  Abou Khalil.
 
   The icons used in ECReviewBox are from the "Silk icon
   set":http://www.famfamfam.com/lab/icons/silk/ by Mark James.  They
