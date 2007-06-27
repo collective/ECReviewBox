@@ -31,7 +31,9 @@
 					  reference     here/getReferencedBox;
                       submission    python: here.getAllocatedSubmission(user_id);
                       needRegistration python: (hasattr(here, 'associatedGroup') and here.getAssociatedGroup()) or False;
-                      canParticipate python: (needRegistration and here.isParticipant(user_id)) or (not needRegistration);">
+                      canParticipate python: (needRegistration and here.isParticipant(user_id)) or (not needRegistration);
+                      answerTemplate python: (here.origAsAnswer and submission[0].get('orig_submission', '')) or here.getAnswerTemplate;
+                      ">
                       
         <!-- debug -->
         <!--
@@ -168,7 +170,7 @@
               name="answer"
               tabindex=""
               tal:attributes="tabindex tabindex/next; wrap python:('off', 'on')[here.getWrapAnswer()]"
-              tal:content="here/getAnswerTemplate | nothing"></textarea>
+              tal:content="answerTemplate | nothing"></textarea>
           </div>
   
          <!-- upload file button -->

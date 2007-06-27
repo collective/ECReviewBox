@@ -34,7 +34,7 @@ from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBox
 from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBoxSchema
 from Products.ECAssignmentBox import permissions
 
-from Products.ECAutoAssignmentBox.ECAutoAssignmentBox import ECAutoAssignmentBox
+from Products.ECAutoAssessmentBox.ECAutoAssessmentBox import ECAutoAssessmentBox
 
 # DataGridField imports
 from Products.DataGridField import DataGridField, DataGridWidget
@@ -44,6 +44,7 @@ from Products.DataGridField.SelectColumn import SelectColumn
 
 # Local product imports
 from Products.ECReviewBox.config import *
+from Products.ECReviewBox.content.ECReview import *
 
 try:
     # use ECAssignmentBox's schema and modifiy it
@@ -62,7 +63,7 @@ ECReviewBoxSchema = Schema((
 
     ReferenceField(
         'referencedBox',
-        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssignmentBox.meta_type),
+        allowed_types = (ECAssignmentBox.meta_type, ECAutoAssessmentBox.meta_type),
         #allowed_types_method = 'getAllowedRefTypes',
         multiValued = False,
         required = True,
@@ -93,7 +94,7 @@ ECReviewBoxSchema = Schema((
             description = """Shows users and allocated assignments from the referenced box""",
             i18n_domain = I18N_DOMAIN,
             columns = {
-                'user':Column("User"),
+                'user':Column("Reviewer"),
                 'orig_user':Column("Original user"),
                 'orig_path':Column("Original path"),
                 'orig_submission':Column("Original submission"),
@@ -104,20 +105,19 @@ ECReviewBoxSchema = Schema((
         read_permission = permissions.ModifyPortalContent,
     ),
 
-#    #FIXME: What is this filed used for?
-#    BooleanField(
-#        'origAsAnswer',
-#        default = False,
-#        #required = True,
-#        widget = BooleanWidget(
-#            label = 'Use original assignment as answer template',
-#            label_msgid = 'label_orig_as_answer',
-#            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box',
-#            description_msgid = 'help_orig_as_answer',
-#            i18n_domain = I18N_DOMAIN,
-#        ),
-#        read_permission = permissions.ModifyPortalContent,
-#    ),
+    BooleanField(
+        'origAsAnswer',
+        default = False,
+        #required = True,
+        widget = BooleanWidget(
+            label = 'Use original assignment as answer template',
+            label_msgid = 'label_orig_as_answer',
+            description = 'If selected, the original assignments will be automaticly pasted as answer templates inside this box',
+            description_msgid = 'help_orig_as_answer',
+            i18n_domain = I18N_DOMAIN,
+        ),
+        read_permission = permissions.ModifyPortalContent,
+    ),
 
 )) + ECReviewBoxSchema
 
@@ -145,6 +145,9 @@ class ECReviewBox(ECAssignmentBox):
 
     _at_rename_after_creation = True
 
+    filter_content_types = 1
+    allowed_content_types = [ECReview.meta_type]
+
     # -- actions --------------------------------------------------------------
     actions = updateActions(ECAssignmentBox, (
         {
@@ -163,20 +166,27 @@ class ECReviewBox(ECAssignmentBox):
     # -- methods --------------------------------------------------------------
 
     # overwrite the archetypes edit method
-    security.declareProtected(permissions.ModifyPortalContent, 'processForm')
-    def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
+    security.declarePrivate('manage_afterAdd')
+    def manage_afterAdd(self, item, container):
         """
         """
-        BaseFolder.processForm(self, data=data, metadata=metadata,
-                               REQUEST=REQUEST, values=values)
- 
-        #log('xxx: here we ware in processForm')
+        BaseFolder.manage_afterAdd(self, item, container)
+
+        log('xxx: here we ware in manage_afterAdd')
+
+#    security.declareProtected(permissions.ModifyPortalContent, 'processForm')
+#    def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
+#        """
+#        """
+#        BaseFolder.processForm(self, data=data, metadata=metadata,
+#                               REQUEST=REQUEST, values=values)
+#
+#        #log('xxx: here we ware in processForm')
 
         # get the referenced assignment ‚box
         referencedBox  = self.getReferencedBox()
-        #log('getReferencedBox: %s' % repr(referencedBox))
         
-        if referencedBox:
+        if referencedBox and not self.allocations:
             self._allocate(referencedBox)
 
             
@@ -196,9 +206,7 @@ class ECReviewBox(ECAssignmentBox):
         """
         TODO:
         """
-        log('xxx: here we ware in reAllocate')
-
-        self._allocate(self.getReferencedBox())
+        return self._allocate(self.getReferencedBox())
     
 
     security.declarePrivate('_allocate')
@@ -229,6 +237,7 @@ class ECReviewBox(ECAssignmentBox):
         
         users = []
         submissions = []
+        subsBackup = []
         
         # walk through all submissions
         for brain in brains:
@@ -276,32 +285,43 @@ class ECReviewBox(ECAssignmentBox):
             allocations.append(row)
         # in any other case: lets roll the dices
         else:
+            
             for user in users:
+                
                 #log('user: %s' % user)
                 #log('len(submissions): %s' % len(submissions))
                 
-                if len(submissions) > 0:
-                    row = submissions.pop(randint(0, len(submissions)-1))
+                if len(submissions) == 0:
+                    submissions = subsBackup
+                    subsBackup = []
+
+                row = submissions.pop(randint(0, len(submissions)-1))
+                
+                
+                # ensure that no user gets his/her own original submission
+                if user == row['orig_user']:
+                    #log('len(submissions) = %s' % len(submissions))
+                    row2 = submissions.pop(randint(0, len(submissions)-1))
+                    submissions.append(row.copy())
+                    row = row2    
                     
-                    # ensure that the last remaining pair won't match
-                    if len(submissions) == 1:
-                        #log('users[len(users)-1] = %s' % users[len(users)-1])
-                        #log('submissions[0]["orig_user"] = %s' % submissions[0]['orig_user'])
-                        if users[len(users)-1] == submissions[0]['orig_user']:
-                            submissions.append(row.copy())
-                            row = submissions.pop(0)
                     
-                    # ensure that no user gets his/her own original submission
-                    elif user == row['orig_user']:
-                        #log('len(submissions) = %s' % len(submissions))
-                        row2 = submissions.pop(randint(0, len(submissions)-1))
+                # ensure that the last remaining pair won't match
+                elif len(submissions) == 1:
+                    
+                    log('users[len(users)-1] = %s' % users[len(users)-1])
+                    log('submissions[0]["orig_user"] = %s' % submissions[0]['orig_user'])
+                    
+                    if users[len(users)-1] == submissions[0]['orig_user']:
                         submissions.append(row.copy())
-                        row = row2                        
-        
-                    row['user'] = user
-                    allocations.append(row)
-                            
-                '''
+                        row = submissions.pop(0)                    
+                
+                subsBackup.append(row.copy())        
+                
+                row['user'] = user
+                allocations.append(row)
+
+                """
                 if len(submissions) > 0:
                     row = submissions.pop(0)
                     submissions.append(row.copy())
@@ -315,7 +335,7 @@ class ECReviewBox(ECAssignmentBox):
     
                     #log('user: %s | orig_user: %s' % (entry['user'], entry['orig_user']))
                     allocations.append(row)
-                    '''
+                """
                     
         #self.allocations = allocations
         self.getField('allocations').set(self, allocations)

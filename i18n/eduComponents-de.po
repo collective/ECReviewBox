@@ -48,7 +48,17 @@ msgstr "Ursprüngliche Aufgabe"
 msgid "user_not_enabled"
 msgstr "Einreichungen sind nicht möglich, da Sie zur ursprünglichen Aufgabe keine Lösung eingereicht haben."
 
-#: ./skins/ECReviewBox/ecrb_allocations_view.cpt
-# Original: "Shuffle Allocations"
-msgid "shuffle allocations"
-msgstr "Zuordnungen Mischen"
+#: ./skins/ECReviewBox/ecrb_macros.pt
+# Original: "Original submission"
+msgid "label_original_submission"
+msgstr "Ursprüngliche Einreichung"
+
+#: ./content/ECReviewBox.py
+# Original: "Use original assignment as answer template"
+msgid "label_orig_as_answer"
+msgstr "Ursprünglichen Einreichungstext als Antwortvorlage einfügen"
+
+#: ./content/ECReviewBox.py
+# Original: "If selected, the original assignments will be automaticly pasted as answer templates inside this box"
+msgid "help_orig_as_answer"
+msgstr "Wenn ausgewählt wird der ursprüngliche Einreichungstext automatisch in das Antwortfeld eingefügt."

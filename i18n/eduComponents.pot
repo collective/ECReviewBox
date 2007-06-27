@@ -33,3 +33,17 @@ msgstr ""
 msgid "shuffle allocations"
 msgstr ""
 
+#: ./skins/ECReviewBox/ecrb_macros.pt
+# Original: "Original submission"
+msgid "label_original_submission"
+msgstr ""
+
+#: ./content/ECReviewBox.py
+# Original: "Use original assignment as answer template"
+msgid "label_orig_as_answer"
+msgstr ""
+
+#: ./content/ECReviewBox.py
+# Original: "If selected, the original assignments will be automaticly pasted as answer templates inside this box"
+msgid "help_orig_as_answer"
+msgstr ""

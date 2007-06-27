@@ -30,3 +30,9 @@ msgstr "Ermöglicht die Erstellung von Aufgaben für die gegenseitige Begutachtu
 # Original: "Allocations"
 msgid "Allocations"
 msgstr "Zuordnung"
+
+#: ./skins/ECReviewBox/ecrb_allocations_view.cpt
+# Original: "Shuffle Allocations"
+msgid "Shuffle Allocations"
+msgstr "Neu zuordnen"
+

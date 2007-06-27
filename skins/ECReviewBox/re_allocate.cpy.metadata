@@ -1,0 +1,9 @@
+[default]
+title = Re-allocate submissions and users
+
+[validators]
+validators=
+
+[actions]
+action.success=redirect_to:request/orig_template|string:ecrb_allocations_view
+action.failure=redirect_to:request/orig_template|string:ecrb_allocations_view

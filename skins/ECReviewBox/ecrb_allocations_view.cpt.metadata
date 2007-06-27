@@ -8,5 +8,6 @@ View = 0:Authenticated
 validators=
 
 [actions]
+action.success..ShuffleAllocations=traverse_to:string:re_allocate
 action.success=traverse_to:string:ecrb_allocations_view
 action.failure=traverse_to:string:ecrb_allocations_view
