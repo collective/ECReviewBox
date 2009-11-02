@@ -32,7 +32,10 @@
                       submission    python: here.getAllocatedSubmission(user_id);
                       needRegistration python: (hasattr(here, 'associatedGroup') and here.getAssociatedGroup()) or False;
                       canParticipate python: (needRegistration and here.isParticipant(user_id)) or (not needRegistration);
-                      answerTemplate python: (here.origAsAnswer and submission[0].get('orig_submission', '')) or here.getAnswerTemplate;
+                      answerTemplate python: (
+                          here.getOrigAsAnswer() and
+                          submission[0].get('orig_submission', '')) or
+                          here.getAnswerTemplate;
                       ">
                       
         <!-- debug -->

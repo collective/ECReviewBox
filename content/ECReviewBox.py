@@ -179,6 +179,10 @@ class ECReviewBox(ECAssignmentBox):
         return datagrid.search(self, user=user_id)
 
 
+    security.declarePublic('getOrigAsAnswer')
+    def getOrigAsAnswer(self): return self.origAsAnswer
+
+
     security.declareProtected(permissions.ModifyPortalContent, 'reAllocate')
     def reAllocate(self):
         """
