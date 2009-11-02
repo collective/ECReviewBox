@@ -29,7 +29,7 @@ from Products.CMFPlone.utils import log_exc, log
 
 # Other product imports
 from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBox
-from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBoxSchema
+from Products.ECAssignmentBox.ECAssignmentBox import ECAssignmentBox_schema
 from Products.ECAssignmentBox import permissions
 
 from Products.ECAutoAssessmentBox.ECAutoAssessmentBox import ECAutoAssessmentBox
@@ -46,7 +46,7 @@ from Products.ECReviewBox.content.ECReview import *
 
 try:
     # use ECAssignmentBox's schema and modifiy it
-    ECReviewBoxSchema = ECAssignmentBoxSchema.copy() 
+    ECReviewBoxSchema = ECAssignmentBox_schema.copy() 
     
     # we hide the field assignment_reference because it is
     # unsuitable for review boxes
