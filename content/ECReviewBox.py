@@ -22,7 +22,6 @@ from Products.Archetypes.atapi import *
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
-from Products.ATContentTypes.content.base import registerATCT
 from Products.ATContentTypes.content.base import updateActions, updateAliases
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 
@@ -344,4 +343,4 @@ class ECReviewBox(ECAssignmentBox):
         return
             
 
-registerATCT(ECReviewBox, PRODUCT_NAME)
+registerType(ECReviewBox, PRODUCT_NAME)

@@ -13,8 +13,8 @@ from AccessControl.SecurityManagement import getSecurityManager, setSecurityMana
 
 # Plone imports
 from Products.CMFPlone.utils import log_exc, log
-from Products.ATContentTypes.content.base import registerATCT
 from Products.ATContentTypes.content.base import updateActions, updateAliases
+from Products.Archetypes.atapi import registerType
 
 from AccessControl import ClassSecurityInfo
 
@@ -60,4 +60,4 @@ class ECReview(ECAssignment):
 
     # -- methods --------------------------------------------------------------
 
-registerATCT(ECReview, PRODUCT_NAME)
+registerType(ECReview, PRODUCT_NAME)
