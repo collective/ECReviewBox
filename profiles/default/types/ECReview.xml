@@ -20,6 +20,8 @@
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
+  <alias from="view" to="ecr_view" />
+  <alias from="grade" to="ecr_grade" />
   <alias from="sharing" to="@@sharing" />
   <alias from="view" to="(selected layout)" />
   <action title="View" action_id="view" category="object" condition_expr=""
@@ -28,6 +30,14 @@
   </action>
   <action title="Edit" action_id="edit" category="object" condition_expr=""
     url_expr="string:${object_url}/edit" visible="True">
+    <permission value="Modify portal content" />
+  </action>
+  <action
+    title="Grade"
+    action_id="grade"
+    category="object"
+    condition_expr="python:1"
+    url_expr="string:$object_url/ecr_grade">
     <permission value="Modify portal content" />
   </action>
 </object>

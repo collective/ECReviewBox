@@ -22,7 +22,6 @@ from Products.Archetypes.atapi import *
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
-from Products.ATContentTypes.content.base import updateActions, updateAliases
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 
 from Products.CMFCore.utils import getToolByName
@@ -143,23 +142,6 @@ class ECReviewBox(ECAssignmentBox):
 
     filter_content_types = 1
     allowed_content_types = [ECReview.meta_type]
-
-    # -- actions --------------------------------------------------------------
-    actions = updateActions(ECAssignmentBox, (
-        {
-        'action':      "string:$object_url/ecrb_allocations_view",
-        'id':          'allocations',
-        'name':        'Allocations',
-        'permissions': (permissions.ManageProperties,),
-        },
-    ))
-
-    aliases = updateAliases(ECAssignmentBox, {
-        'view': 'ecrb_view',
-        })
-
-
-    # -- methods --------------------------------------------------------------
 
     # overwrite the archetypes edit method
     security.declarePrivate('manage_afterAdd')

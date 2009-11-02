@@ -21,6 +21,7 @@
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
   <alias from="sharing" to="@@sharing" />
+  <alias from="view" to="ecrb_view" />
   <alias from="view" to="(selected layout)" />
   <action title="View" action_id="view" category="object" condition_expr=""
     url_expr="string:${folder_url}/" visible="True">
@@ -29,5 +30,11 @@
   <action title="Edit" action_id="edit" category="object" condition_expr=""
     url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
+  </action>
+  <action
+    title="Allocations"
+    action_id="allocations"
+    url_expr="string:$object_url/ecrb_allocations_view" >
+    <permission value="Manage properties" />
   </action>
 </object>

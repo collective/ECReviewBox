@@ -13,7 +13,6 @@ from AccessControl.SecurityManagement import getSecurityManager, setSecurityMana
 
 # Plone imports
 from Products.CMFPlone.utils import log_exc, log
-from Products.ATContentTypes.content.base import updateActions, updateAliases
 from Products.Archetypes.atapi import registerType
 
 from AccessControl import ClassSecurityInfo
@@ -36,25 +35,5 @@ class ECReview(ECAssignment):
 
     typeDescription = "A submission to a review box."
     typeDescMsgId = 'description_edit_ecr'
-
-    # -- actions --------------------------------------------------------------
-    actions = updateActions(ECAssignment, (
-        {
-        'action':      "string:$object_url/ecr_grade",
-        'category':    "object",
-        'id':          'grade',
-        'name':        'Grade',
-        'permissions': (permissions.ModifyPortalContent,),
-        'condition':   'python:1'
-        },
-        ))
-
-    aliases = updateAliases(ECAssignment, {
-        'view': 'ecr_view',
-        'grade': 'ecr_grade',
-        })
-
-
-    # -- methods --------------------------------------------------------------
 
 registerType(ECReview, PRODUCT_NAME)
