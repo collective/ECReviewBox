@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-# $Id$
+# $Id: config.py 835 2007-06-27 15:05:17Z amelung $
 #
 # Copyright (c) 2007 Otto-von-Guericke-Universität Magdeburg
 #
