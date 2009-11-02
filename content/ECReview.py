@@ -34,9 +34,6 @@ class ECReview(ECAssignment):
     portal_type = meta_type = ECR_META
     archetype_name = ECR_TITLE
 
-    default_view   = 'ecr_view'
-    immediate_view = 'ecr_view'
-
     typeDescription = "A submission to a review box."
     typeDescMsgId = 'description_edit_ecr'
 

@@ -139,9 +139,6 @@ class ECReviewBox(ECAssignmentBox):
     typeDescription = 'Enables the creation of online assignments for peer reviewing'
     typeDescMsgId = 'description_edit_ecrb'
 
-    default_view = 'ecrb_view'
-    immediate_view = 'ecrb_view'
-
     _at_rename_after_creation = True
 
     filter_content_types = 1

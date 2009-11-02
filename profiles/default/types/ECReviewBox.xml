@@ -9,13 +9,14 @@
   <property name="content_icon">ecrb.png</property>
   <property name="product">ECReviewBox</property>
   <property name="factory">addECReviewBox</property>
-  <property name="immediate_view">atct_edit</property>
+  <property name="immediate_view">ecrb_view</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>
   <property name="allow_discussion">False</property>
-  <property name="default_view">base_view</property>
+  <property name="default_view">ecrb_view</property>
   <property name="view_methods">
     <element value="base_view" />
+    <element value="ecrb_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
