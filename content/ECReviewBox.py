@@ -142,6 +142,7 @@ class ECReviewBox(ECAssignmentBox):
 
     filter_content_types = 1
     allowed_content_types = [ECReview.meta_type]
+    completedStates = None
 
     # overwrite the archetypes edit method
     security.declarePrivate('manage_afterAdd')
@@ -163,7 +164,8 @@ class ECReviewBox(ECAssignmentBox):
 
         # get the referenced assignment ‚box
         referencedBox  = self.getReferencedBox()
-        
+       
+        self.completedStates = container.completedStates
         if referencedBox and not self.allocations:
             self._allocate(referencedBox)
 
@@ -230,7 +232,7 @@ class ECReviewBox(ECAssignmentBox):
             users.append(creator)
 
             # filter only accepted or graded assignments
-            if brain.review_state in ('accepted', 'graded'):
+            if brain.review_state in self.completedStates:
                 # get the real object
                 assignment = brain.getObject()
                 
@@ -252,6 +254,12 @@ class ECReviewBox(ECAssignmentBox):
                                         'orig_submission': answer,
                                         })
                     
+        if len(submissions)==0:
+          getToolByName('plone_utils').addPortalMessage(_(
+            'No valid submissions to allocate. Check the states of the' +
+            'submissions in the referenced assignmentbox.'))
+          state.set(status='failure')
+
         # ensure that 'users' is a list of unique names
         users = dict(map(lambda i: (i, 1), users)).keys()
         #log('unique user list: %s' % repr(users))
