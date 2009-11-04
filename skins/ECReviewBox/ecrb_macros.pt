@@ -14,7 +14,7 @@
     <metal:define define-macro="orig_submission_view">
 
       <div class="field">
-        <dl class="collapsible collapsedBlockCollapsible"
+        <dl class="collapsible inline collapsedOnLoad"
             tal:define="parent     python: here.aq_parent;
                         user_id    python: here.Creator();
                         submission python: parent.getAllocatedSubmission(user_id);"

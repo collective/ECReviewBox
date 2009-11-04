@@ -125,7 +125,7 @@
         display text of the referenced assignment box (original assignment)
         in a collapsible box
         -->
-        <dl class="collapsible collapsedBlockCollapsible"
+        <dl class="collapsible inline collapsedOnLoad"
             tal:condition="reference"
         >
           <dt class="collapsibleHeader"
