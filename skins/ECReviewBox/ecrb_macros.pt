@@ -32,6 +32,99 @@
 
     </metal:define>
 
+    <!--
+      This is a modified version of ECAssignmentBox's eca_view_head macro.
+      Since the original one didn't quite work, I had decided to copy it
+      and change it where it needs to be changed to work.
+      Only the collapsible box didn't work (there was no text displayed it it)
+      so this should be the only place with modifications, apart from making
+      lines adhere to the 79 character limit.
+    -->
+    <metal:define define-macro="ecr_view_head">
+      <div metal:use-macro="here/document_actions/macros/document_actions"/>
+
+      <!-- show page title using parent's title -->
+      <h1 class="documentFirstHeading">
+        <a tal:attributes="name here/aq_parent/id"
+           tal:content="here/aq_parent/title_or_id"/>
+      </h1>
+
+      <a class="link-parent visualNoPrint"
+         href=""
+         tal:define=
+          "parent_url python:here.navigationParent(here, template_id)"
+         tal:condition="parent_url"
+         tal:attributes=
+          "href python: '%s/%s' % (parent_url, 'all_assignments')"
+         i18n:domain="plone"
+         i18n:translate="go_to_parent_url">
+        Up one level
+      </a>
+
+      <a class="link-down"
+         tal:attributes="href python: '#' + here.getId()">
+        <span i18n:translate="go_to_submission">Go to the submission of</span>
+        <span tal:replace="here/getCreatorFullName"/>
+      </a>
+
+      <!-- display assignmentbox text in a collapsible box-->
+      <dl class="collapsible inline collapsedOnLoad"
+        tal:define="reference
+          python: here.aq_parent.getReferencedBox().getReference();">
+        <dt class="collapsibleHeader">Assignment text</dt>
+        <dd class="collapsibleContent">
+          <div
+            class="documentDescription"
+            tal:content="structure
+              python: here.aq_parent.getReferencedBox().Description()"
+	        />
+          <div tal:replace="structure
+            reference/getAssignment_text |
+            python: here.aq_parent.getReferencedBox().getAssignment_text()"/>
+        </dd>
+      </dl>
+
+      <p/>
+
+      <!-- show links and further information about this assignment -->
+      <h1>
+        <a i18n:translate="assignment_of"
+           tal:attributes="name here/getId">
+          Assignment of
+        </a>
+        <span tal:replace="here/getCreatorFullName"/>
+      </h1>
+
+      <div class="documentByLine"
+        tal:define="
+          item_type here/portal_type;
+          item_wf_state
+            here/review_state |
+            python: wtool.getInfoFor(here, 'review_state', '');
+          item_state_title python:
+            wtool.getTitleForStateOnType(item_wf_state, item_type);
+          item_wf_state_class python:
+            'state-' + putils.normalizeString(item_wf_state);"
+      >
+        <span i18n:translate="label_datetime">submitted at</span>
+        <span
+          tal:content="python: here.toLocalizedTime(here.CreationDate(), 1)"/>,
+        <span i18n:translate="label_state">state</span>:
+        <span i18n:domain="plone"
+            i18n:translate=""
+            tal:condition="item_state_title"
+            tal:content="item_state_title"
+            tal:attributes="class item_wf_state_class" />
+        <span tal:condition="not: item_state_title">&nbsp;</span>
+      </div>
+
+      <a class="link-parent visualNoPrint"
+         tal:attributes="href string: #${here/aq_parent/id}"
+         i18n:translate="back_to_overview">
+        Back to the assignment text
+      </a>
+    </metal:define>
+
   </body>
 </html>
 <!-- Keep this comment at the end of the file
