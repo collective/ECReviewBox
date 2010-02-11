@@ -16,27 +16,38 @@
     </metal:block>
 
     <metal:main fill-slot="main">
-      <tal:main-macro metal:define-macro="main"
-          tal:define="Iterator      python: modules['Products.Archetypes'].IndexIterator;
-                      tabindex      python: Iterator();
-                      user_id       python: member.getId();
-                      item_wf_state here/review_state | python: wtool.getInfoFor(here, 'review_state', '');
-                      hasExpired    here/hasExpired;
-                      isEffective   here/isEffective;
-                      isPublished   python: item_wf_state == 'published';
-                      isOwner       python: user.has_role(['Owner', 'Reviewer', 'Manager'], here);
-                      canSupersed   python: here.canSupersed();
-                      canRetry      python: here.canRetry();
-					  tries_left    python: here.getMaxTries() - here.getTries();
-					  reference     here/getReferencedBox;
-                      submission    python: here.getAllocatedSubmission(user_id);
-                      needRegistration python: (hasattr(here, 'associatedGroup') and here.getAssociatedGroup()) or False;
-                      canParticipate python: (needRegistration and here.isParticipant(user_id)) or (not needRegistration);
-                      answerTemplate python: (
-                          here.getOrigAsAnswer() and
-                          submission[0].get('orig_submission', '')) or
-                          here.getAnswerTemplate;
-                      ">
+      <tal:main-macro
+          metal:define-macro="main"
+          tal:define="
+              Iterator python: modules['Products.Archetypes'].IndexIterator;
+              tabindex python: Iterator();
+              user_id  python: member.getId();
+              item_wf_state
+                  here/review_state |
+                  python: wtool.getInfoFor(here, 'review_state', '');
+              hasExpired  here/hasExpired;
+              isEffective here/isEffective;
+              isPublished python: item_wf_state == 'published';
+              isOwner     python:
+                  user.has_role(['Owner', 'Reviewer', 'Manager'], here);
+              canSupersed       python: here.canSupersed();
+              canRetry          python: here.canRetry();
+              tries_left        python: here.getMaxTries() - here.getTries();
+              reference         here/getReferencedBox;
+              submission        python: here.getAllocatedSubmission(user_id);
+              needRegistration  python: (
+                  hasattr(here, 'associatedGroup') and
+                  here.getAssociatedGroup()) or
+                  False;
+              canParticipate python: (
+                  needRegistration and
+                  here.isParticipant(user_id))  or
+                  (not needRegistration);
+              answerTemplate python: (
+                      here.getOrigAsAnswer()  and
+                      submission[0].get('orig_submission', '')) or
+                  here.getAnswerTemplate;"
+          >
                       
         <!-- debug -->
         <!--
