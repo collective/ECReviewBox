@@ -45,6 +45,7 @@
                   (not needRegistration);
               answerTemplate python: (
                       here.getOrigAsAnswer()  and
+                      submission              and
                       submission[0].get('orig_submission', '')) or
                   here.getAnswerTemplate;"
           >
