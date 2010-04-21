@@ -155,18 +155,6 @@ class ECReviewBox(ECAssignmentBox):
         """
         BaseFolder.manage_afterAdd(self, item, container)
 
-        log('xxx: here we ware in manage_afterAdd')
-
-#    security.declareProtected(permissions.ModifyPortalContent, 'processForm')
-#    def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
-#        """
-#        """
-#        BaseFolder.processForm(self, data=data, metadata=metadata,
-#                               REQUEST=REQUEST, values=values)
-#
-#        #log('xxx: here we ware in processForm')
-
-        # get the referenced assignment ‚box
         referencedBox  = self.getReferencedBox()
        
         self.completedStates = container.completedStates
@@ -323,23 +311,6 @@ class ECReviewBox(ECAssignmentBox):
                 row['user'] = user
                 allocations.append(row)
 
-                """
-                if len(submissions) > 0:
-                    row = submissions.pop(0)
-                    submissions.append(row.copy())
-    
-                    # ensure that no user gets his/her own original submission
-                    if user == row['orig_user']:
-                        row = submissions.pop(0)
-                        submissions.append(row.copy())
-    
-                    row['user'] = user
-    
-                    #log('user: %s | orig_user: %s' % (entry['user'], entry['orig_user']))
-                    allocations.append(row)
-                """
-                    
-        #self.allocations = allocations
         self.getField('allocations').set(self, allocations)
 
         # that's all there is to it!
