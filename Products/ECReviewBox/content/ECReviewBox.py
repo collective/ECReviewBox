@@ -72,7 +72,10 @@ ECReviewBoxSchema = Schema((
             label_msgid='label_reference_box',
             label='Referenced assignment box',
             description_msgid='help_reference_box',
-            description='All (accepted resp. graded) submissions inside selected assignment box will be used for the peer review',
+            description=
+                'All submissions inside selected assignment box which are ' +
+                'in a state that the container of this review box considers ' +
+                'as a completed state will be used for the peer review.',
             i18n_domain=I18N_DOMAIN,
             allow_search = True,
             show_indexes = False,
@@ -197,8 +200,8 @@ class ECReviewBox(ECAssignmentBox):
     security.declarePrivate('_allocate')
     def _allocate(self, referencedBox):
         """
-        Get all (accepted or graded) assignments in the referenced assignment 
-        box and re-assign each submission to a new user.
+        Get all assignments in the referenced assignment box which are in a
+        completed state and re-assign each submission to a new user.
 
         @param referencedBox: the referenced assignment boxs  
         """
