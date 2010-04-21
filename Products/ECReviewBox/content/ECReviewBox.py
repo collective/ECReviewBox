@@ -25,6 +25,7 @@ from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import Reference
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import log_exc, log
 
 # Other product imports
@@ -255,10 +256,18 @@ class ECReviewBox(ECAssignmentBox):
                                         })
                     
         if len(submissions)==0:
-          getToolByName('plone_utils').addPortalMessage(_(
-            'No valid submissions to allocate. Check the states of the' +
-            'submissions in the referenced assignmentbox.'))
-          state.set(status='failure')
+            messenger = getToolByName(self, 'plone_utils')
+            messenger.addPortalMessage(_(u"""
+                No submissions eligible for a peer review where found
+                inside the referenced assignment box."""),
+                'error')
+            messenger.addPortalMessage(_(u"""
+                Please check whether the referenced assignment box contains any
+                submissions which the container that this review box resides in
+                considers as being in a completed state, delete the created
+                review box and try again in a different container, with
+                different settings or with a different assignment box."""))
+            return
 
         # ensure that 'users' is a list of unique names
         users = dict(map(lambda i: (i, 1), users)).keys()
