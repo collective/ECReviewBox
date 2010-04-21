@@ -146,7 +146,7 @@ class ECReviewBox(ECAssignmentBox):
 
     filter_content_types = 1
     allowed_content_types = [ECReview.meta_type]
-    completedStates = None
+
 
     # overwrite the archetypes edit method
     security.declarePrivate('manage_afterAdd')
