@@ -203,7 +203,7 @@ class ECReviewBox(ECAssignmentBox):
         Get all assignments in the referenced assignment box which are in a
         completed state and re-assign each submission to a new user.
 
-        @param referencedBox: the referenced assignment boxs  
+        @param referencedBox: the referenced assignment box
         """
         
         if not referencedBox:
