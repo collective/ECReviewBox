@@ -38,11 +38,11 @@
     <permission value="Modify portal content"/>
   </action>
   <action
-    title="Grade"
-    action_id="grade"
-    category="object"
-    condition_expr="python:1"
-    url_expr="string:$object_url/ecr_grade">
+      title="Grade"
+      action_id="grade"
+      category="object"
+      condition_expr="python:1"
+      url_expr="string:$object_url/ecr_grade">
     <permission value="Modify portal content" />
   </action>
 </object>
