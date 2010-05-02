@@ -39,4 +39,12 @@
     url_expr="string:$object_url/ecrb_allocations_view" >
     <permission value="Manage properties" />
   </action>
+  <action title="Assignments"
+      action_id="all_assignments"
+      category="object"
+      condition_expr="python: len(here.portal_catalog(path={'query':'/'.join(here.getPhysicalPath()), 'depth':1, },)) > 0"
+      url_expr="string:${object_url}/all_assignments"
+      visible="True">
+    <permission value="View"/>
+  </action>
 </object>
