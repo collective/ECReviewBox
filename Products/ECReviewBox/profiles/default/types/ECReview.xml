@@ -30,9 +30,12 @@
     <permission value="View" />
   </action>
   <action title="Edit" action_id="edit" category="object"
-    condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user"
-    url_expr="string:${object_url}/edit" visible="True">
-    <permission value="Modify portal content" />
+      condition_expr="
+        python:here.Creator() ==
+        portal.portal_membership.getAuthenticatedMember().getUserName()"
+      url_expr="string:${object_url}/edit" 
+      visible="True">
+    <permission value="Modify portal content"/>
   </action>
   <action
     title="Grade"
