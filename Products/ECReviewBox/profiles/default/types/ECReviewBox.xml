@@ -55,4 +55,11 @@
       visible="True">
     <permission value="Manage Properties"/>
   </action>
+  <action title="Reviews"
+      action_id="reviews"
+      category="object"
+      url_expr="string:${object_url}/view_available_reviews"
+      visible="True">
+    <permission value="View"/>
+  </action>
 </object>

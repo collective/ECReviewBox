@@ -5,7 +5,7 @@
 #
 # This file is part of ECReviewBox.
 from random import randint
-from random import randint
+from random import (randint, shuffle)
 
 # Zope imports
 from AccessControl import ClassSecurityInfo
@@ -162,6 +162,24 @@ class ECReviewBox(ECAssignmentBox):
             self._allocate(referencedBox)
 
             
+    security.declarePublic('availableReviews')
+    def availableReviews(self):
+        """
+        Returns a randomized list of tuples, where each tuple's first
+        component is an answer posted in the referenced assignment box
+        and the second component is the corresponding review.
+        """
+        result = []
+        children = self.getChildNodes()
+        for c in children:
+            u = c.getOwner().getId()
+            solution = c.getAllocatedSubmission(u)[0]['orig_submission']
+            review = c.get_data()
+            result.append((solution, review))
+        shuffle(result)
+        return result
+
+
     security.declarePublic('getAllocatedSubmission')
     def getAllocatedSubmission(self, user_id):
         """

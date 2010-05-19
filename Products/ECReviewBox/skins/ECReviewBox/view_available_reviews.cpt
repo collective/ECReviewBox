@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+                      "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xml:lang="en" lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="eduComponents">
+
+  <body>
+    <metal:block fill-slot="css_slot">
+      <style type="text/css" 
+          media="screen"
+          tal:content="string: @import url($portal_url/ecabstyles.css);"/>
+    </metal:block>
+
+    <metal:main fill-slot="main">
+      <div metal:use-macro="here/document_actions/macros/document_actions" />
+      <h1 class="documentFirstHeading" tal:content="here/title_or_id"/>
+      <a class="link-parent visualNoPrint"
+          tal:define="
+            parent_url python: here.navigationParent(here, template_id)"
+          tal:condition="parent_url"
+          tal:attributes="href python: '%s/%s' % (parent_url, template)"
+          i18n:domain="plone"
+          i18n:translate="go_to_parent_url">
+        Up one level
+      </a>
+      <table class="vertical listing" 
+          tal:define="pairs python: here.availableReviews()">
+        <tr>
+          <th class=nosort>Solution</th>
+          <th class=nosort>Review</th>
+        </tr>
+        <tal:omit-tag tal:repeat="pair pairs"> 
+          <tr tal:define="odd repeat/pair/odd"
+            tal:attributes="class python: (odd and 'odd') or 'even'">
+            <td class=nosort tal:content="python: pair[0]"></td>
+            <td class=nosort tal:content="python: pair[1]"></td>
+          </tr>
+        </tal:omit-tag>
+      </table>
+    </metal:main>
+
+  </body>
+</html>
+
