@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
                       "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" 
+<html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en" lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
@@ -11,7 +11,7 @@
 
   <body>
     <metal:block fill-slot="css_slot">
-      <style type="text/css" 
+      <style type="text/css"
           media="screen"
           tal:content="string: @import url($portal_url/ecabstyles.css);"/>
     </metal:block>
