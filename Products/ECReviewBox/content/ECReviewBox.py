@@ -180,6 +180,25 @@ class ECReviewBox(ECAssignmentBox):
         return result
 
 
+    security.declarePublic('gist')
+    def gist(self, text):
+        """
+        Shortens text to the first 47 characters of it's first line and adds
+        an ellipsis. Tries to cut text at word boundaries so the gist doesn't
+        end with an incomplete word.
+        TODO: Move this function somewhere else because it doesn't belong here.
+        """
+        if len(text) <= 50: return text
+        if text.isspace(): return ""
+        line = filter(lambda x: not x.isspace(), text.splitlines())[0]
+        gist = line[0:47]
+        gistend = gist.split()[-1]
+        words = len(gist.split())
+        last_word = line.split()[words-1]
+        if gistend == last_word or words == 1: return gist.rstrip() + u'...'
+        return gist.rstrip(last_word).rstrip() + u'...'
+        
+
     security.declarePublic('getAllocatedSubmission')
     def getAllocatedSubmission(self, user_id):
         """
