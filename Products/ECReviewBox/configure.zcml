@@ -13,6 +13,11 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <browser:resource
+      file="browser/reviews.kss"
+      name="reviews.kss"
+      />
+
   <browser:page
       for="plone.app.kss.interfaces.IPortalObject"
       class=".kssactions.ReviewTable"

@@ -1,0 +1,7 @@
+.rowtoggle:click{
+  action-server: toggleRow;
+  toggleRow-id: nodeAttr("id");
+  toggleRow-state: kssAttr("state");
+  toggleRow-index: kssAttr("index");
+}
+

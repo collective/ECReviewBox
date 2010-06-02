@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object meta_type="KSS Registry" name="portal_kss">
+<kineticstylesheet
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="1"
+    expression=""
+    id="++resource++reviews.kss"
+    />
+</object>
+
