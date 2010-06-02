@@ -28,17 +28,42 @@
           i18n:translate="go_to_parent_url">
         Up one level
       </a>
+
+      <style type="text/css">
+        .rowtoggle{cursor: pointer;}
+        .expanded{display: none;}
+      </style>
+
       <table class="listing"
           tal:define="pairs python: here.availableReviews()">
         <tr>
+          <th class=nosort />
           <th class=nosort>Solution</th>
           <th class=nosort>Review</th>
         </tr>
-        <tal:omit-tag tal:repeat="pair pairs"> 
-          <tr tal:define="odd repeat/pair/odd"
-            tal:attributes="class python: (odd and 'odd') or 'even'">
-            <td class=nosort tal:content="python: pair[0]"></td>
-            <td class=nosort tal:content="python: pair[1]"></td>
+        <tal:omit-tag tal:repeat="pair pairs">
+          <tr tal:define="odd repeat/pair/odd;
+                index repeat/pair/index"
+              tal:attributes="class python: (odd and 'odd') or 'even'">
+              <td class="nosort">
+                <img src="treeCollapsed.gif" alt="expand row"
+                    tal:attributes="
+                      id python: 'reviews-row-%s-toggle' % index;
+                      class python: 'rowtoggle kssattr-state-collapsed ' +
+                        ('kssattr-index-%s' % index)"/>
+              </td>
+            <td class=nosort>
+              <pre tal:attributes="class python: 'collapsed row%s' % index"
+                  tal:content="python: context.gist(pair[0])"/>
+              <pre tal:attributes="class python: 'expanded row%s' % index"
+                  tal:content="python: pair[0]"/>
+            </td>
+            <td class=nosort>
+              <pre tal:attributes="class python: 'collapsed row%s' % index"
+                  tal:content="python: context.gist(pair[1])"/>
+              <pre tal:attributes="class python: 'expanded row%s' % index"
+                  tal:content="python: pair[1]"/>
+            </td>
           </tr>
         </tal:omit-tag>
       </table>
