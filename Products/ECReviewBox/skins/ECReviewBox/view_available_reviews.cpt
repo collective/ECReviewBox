@@ -28,7 +28,7 @@
           i18n:translate="go_to_parent_url">
         Up one level
       </a>
-      <table class="vertical listing" 
+      <table class="listing"
           tal:define="pairs python: here.availableReviews()">
         <tr>
           <th class=nosort>Solution</th>
