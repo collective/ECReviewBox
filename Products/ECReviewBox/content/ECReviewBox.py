@@ -170,8 +170,10 @@ class ECReviewBox(ECAssignmentBox):
         and the second component is the corresponding review.
         """
         result = []
+        wft = getToolByName(self, 'portal_workflow')
         children = self.getChildNodes()
         for c in children:
+            if wft.getInfoFor(c, 'review_state') == 'superseded': continue
             u = c.getOwner().getId()
             solution = c.getAllocatedSubmission(u)[0]['orig_submission']
             review = c.get_data()
