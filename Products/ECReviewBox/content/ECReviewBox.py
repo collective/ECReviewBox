@@ -188,9 +188,9 @@ class ECReviewBox(ECAssignmentBox):
         end with an incomplete word.
         TODO: Move this function somewhere else because it doesn't belong here.
         """
-        if len(text) <= 50: return text
         if text.isspace(): return ""
         line = filter(lambda x: not x.isspace(), text.splitlines())[0]
+        if len(line) <= 50: return line
         gist = line[0:47]
         gistend = gist.split()[-1]
         words = len(gist.split())
