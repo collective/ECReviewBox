@@ -165,20 +165,24 @@ class ECReviewBox(ECAssignmentBox):
     security.declarePublic('availableReviews')
     def availableReviews(self):
         """
-        Returns a randomized list of tuples, where each tuple's first
-        component is an answer posted in the referenced assignment box
-        and the second component is the corresponding review.
+        Returns a dictionary of all available, unsuperseded reviews in this
+        review box. Each dictionary key is the original user, i.e. the name
+        of the user who submitted the reviewed assignment in the referenced
+        assignment box. Each item is itself a dictionary with the two keys
+        'solution' and 'review', the former being the original submitted
+        solution in the referenced assignment box and the latter being the
+        corresponding review.
         """
-        result = []
+        result = {}
         wft = getToolByName(self, 'portal_workflow')
         children = self.getChildNodes()
         for c in children:
             if wft.getInfoFor(c, 'review_state') == 'superseded': continue
             u = c.getOwner().getId()
+            ou = c.getAllocatedSubmission(u)[0]['orig_user']
             solution = c.getAllocatedSubmission(u)[0]['orig_submission']
             review = c.get_data()
-            result.append((solution, review))
-        shuffle(result)
+            result[ou] = {'solution': solution, 'review': review}
         return result
 
 
