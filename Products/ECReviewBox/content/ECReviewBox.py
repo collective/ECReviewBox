@@ -189,7 +189,10 @@ class ECReviewBox(ECAssignmentBox):
         TODO: Move this function somewhere else because it doesn't belong here.
         """
         if text.isspace(): return ""
-        line = filter(lambda x: not x.isspace(), text.splitlines())[0]
+        line = filter(
+            lambda x: not x.isspace() and len(x) > 0,
+            text.splitlines()
+        )[0]
         if len(line) <= 50: return line
         gist = line[0:47]
         gistend = gist.split()[-1]
