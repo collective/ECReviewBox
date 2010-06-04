@@ -41,8 +41,11 @@
           <th class=nosort>Solution</th>
           <th class=nosort>Review</th>
         </tr>
-        <tal:omit-tag tal:repeat="pair python:
-            here.availableReviews().values()">
+        <tal:omit-tag tal:repeat="pair python: map(
+            lambda x: here.availableReviews()[x],
+            filter(
+              lambda x: x != ('%s' % user),
+              here.availableReviews().keys()))">
           <tr tal:define="odd repeat/pair/odd;
                 index repeat/pair/index"
               tal:attributes="class python: (odd and 'odd') or 'even'">
