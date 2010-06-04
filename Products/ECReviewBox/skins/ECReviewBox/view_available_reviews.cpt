@@ -34,6 +34,17 @@
         .expanded{display: none;}
       </style>
 
+      <dl class="collapsible block">
+        <dt class="collapsibleHeader">Your personal review</dt>
+        <dd class="collapsibleContent" tal:define="u python: '%s' % user">
+          <p tal:condition="python: not here.availableReviews().has_key(u)"
+              tal:replace="string: Your submission hasn't been reviewed yet."
+          />
+          <pre tal:condition="python: here.availableReviews().has_key(u)"
+              tal:content="python: here.availableReviews()[u]['review']"
+          />
+        </dd>
+      </dl>
       <table class="listing"
           tal:define="pairs python: here.availableReviews()">
         <tr>
