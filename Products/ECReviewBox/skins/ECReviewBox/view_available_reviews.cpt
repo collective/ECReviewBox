@@ -48,43 +48,43 @@
       <dl class="collapsible block collapsedOnLoad">
         <dt class=collapsibleHeader>Other solutions and their reviews</dt>
         <dd class=collapsibleContent>
-      <table class="listing"
-          tal:define="pairs python: here.availableReviews()">
-        <tr>
-          <th class=nosort />
-          <th class=nosort>Solution</th>
-          <th class=nosort>Review</th>
-        </tr>
-        <tal:omit-tag tal:repeat="pair python: map(
-            lambda x: here.availableReviews()[x],
-            filter(
-              lambda x: x != ('%s' % user),
-              here.availableReviews().keys()))">
-          <tr tal:define="odd repeat/pair/odd;
-                index repeat/pair/index"
-              tal:attributes="class python: (odd and 'odd') or 'even'">
-            <td class="nosort">
-              <img src="treeCollapsed.gif" alt="expand row"
-                  tal:attributes="
-                    id python: 'reviews-row-%s-toggle' % index;
-                    class python: 'rowtoggle kssattr-state-collapsed ' +
-                      ('kssattr-index-%s' % index)"/>
-            </td>
-            <td class=nosort>
-              <pre tal:attributes="class python: 'collapsed row%s' % index"
-                  tal:content="python: context.gist(pair['solution'])"/>
-              <pre tal:attributes="class python: 'expanded row%s' % index"
-                  tal:content="python: pair['solution']"/>
-            </td>
-            <td class=nosort>
-              <pre tal:attributes="class python: 'collapsed row%s' % index"
-                  tal:content="python: context.gist(pair['review'])"/>
-              <pre tal:attributes="class python: 'expanded row%s' % index"
-                  tal:content="python: pair['review']"/>
-            </td>
-          </tr>
-        </tal:omit-tag>
-      </table>
+          <table class="listing"
+              tal:define="pairs python: here.availableReviews()">
+            <tr>
+              <th class=nosort />
+              <th class=nosort>Solution</th>
+              <th class=nosort>Review</th>
+            </tr>
+            <tal:omit-tag tal:repeat="pair python: map(
+                lambda x: here.availableReviews()[x],
+                filter(
+                  lambda x: x != ('%s' % user),
+                  here.availableReviews().keys()))">
+              <tr tal:define="odd repeat/pair/odd;
+                    index repeat/pair/index"
+                  tal:attributes="class python: (odd and 'odd') or 'even'">
+                <td class="nosort">
+                  <img src="treeCollapsed.gif" alt="expand row"
+                      tal:attributes="
+                        id python: 'reviews-row-%s-toggle' % index;
+                        class python: 'rowtoggle kssattr-state-collapsed ' +
+                          ('kssattr-index-%s' % index)"/>
+                </td>
+                <td class=nosort>
+                  <pre tal:attributes="class python: 'collapsed row%s' % index"
+                      tal:content="python: context.gist(pair['solution'])"/>
+                  <pre tal:attributes="class python: 'expanded row%s' % index"
+                      tal:content="python: pair['solution']"/>
+                </td>
+                <td class=nosort>
+                  <pre tal:attributes="class python: 'collapsed row%s' % index"
+                      tal:content="python: context.gist(pair['review'])"/>
+                  <pre tal:attributes="class python: 'expanded row%s' % index"
+                      tal:content="python: pair['review']"/>
+                </td>
+              </tr>
+            </tal:omit-tag>
+          </table>
         </dd>
     </metal:main>
 
