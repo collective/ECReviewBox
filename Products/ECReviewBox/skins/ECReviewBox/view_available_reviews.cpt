@@ -46,13 +46,13 @@
           <tr tal:define="odd repeat/pair/odd;
                 index repeat/pair/index"
               tal:attributes="class python: (odd and 'odd') or 'even'">
-              <td class="nosort">
-                <img src="treeCollapsed.gif" alt="expand row"
-                    tal:attributes="
-                      id python: 'reviews-row-%s-toggle' % index;
-                      class python: 'rowtoggle kssattr-state-collapsed ' +
-                        ('kssattr-index-%s' % index)"/>
-              </td>
+            <td class="nosort">
+              <img src="treeCollapsed.gif" alt="expand row"
+                  tal:attributes="
+                    id python: 'reviews-row-%s-toggle' % index;
+                    class python: 'rowtoggle kssattr-state-collapsed ' +
+                      ('kssattr-index-%s' % index)"/>
+            </td>
             <td class=nosort>
               <pre tal:attributes="class python: 'collapsed row%s' % index"
                   tal:content="python: context.gist(pair['solution'])"/>
