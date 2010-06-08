@@ -32,6 +32,7 @@
       <style type="text/css">
         .rowtoggle{cursor: pointer;}
         .expanded{display: none;}
+        #other-reviews{width: 100%}
       </style>
 
       <dl class="collapsible block">
@@ -48,7 +49,7 @@
       <dl class="collapsible block collapsedOnLoad">
         <dt class=collapsibleHeader>Other solutions and their reviews</dt>
         <dd class=collapsibleContent>
-          <table class="listing"
+          <table class="listing" id="other-reviews"
               tal:define="pairs python: here.availableReviews()">
             <tr>
               <th class=nosort />
