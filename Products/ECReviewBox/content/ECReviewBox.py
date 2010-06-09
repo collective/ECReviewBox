@@ -181,7 +181,7 @@ class ECReviewBox(ECAssignmentBox):
             u = c.getOwner().getId()
             ou = c.getAllocatedSubmission(u)[0]['orig_user']
             solution = c.getAllocatedSubmission(u)[0]['orig_submission']
-            review = c.get_data()
+            review = str(c.get_data())
             result[ou] = {'solution': solution, 'review': review}
         return result
 
