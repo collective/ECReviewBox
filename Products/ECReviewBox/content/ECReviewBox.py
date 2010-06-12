@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# $Id$
+# $Id: ECReviewBox.py 835 2007-06-27 15:05:17Z amelung $
 #
 # Copyright (c) 2007 Otto-von-Guericke-Universität Magdeburg
 #
@@ -180,8 +180,7 @@ class ECReviewBox(ECAssignmentBox):
             if wft.getInfoFor(c, 'review_state') == 'superseded': continue
             u = c.getOwner().getId()
             ou = c.getAllocatedSubmission(u)[0]['orig_user']
-            solution =
-            str(c.getAllocatedSubmission(u)[0]['orig_submission'])
+            solution = c.getAllocatedSubmission(u)[0]['orig_submission']
             review = str(c.get_data())
             result[ou] = {'solution': solution, 'review': review}
         return result
