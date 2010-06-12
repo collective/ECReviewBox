@@ -204,8 +204,8 @@ class ECReviewBox(ECAssignmentBox):
         gistend = gist.split()[-1]
         words = len(gist.split())
         last_word = line.split()[words-1]
-        if gistend == last_word or words == 1: return gist.rstrip() + u'...'
-        return gist.rstrip(last_word).rstrip() + u'...'
+        if gistend == last_word or words == 1: return gist.rstrip() + '...'
+        return gist.rstrip(last_word).rstrip() + '...'
         
 
     security.declarePublic('getAllocatedSubmission')
