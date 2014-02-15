@@ -1,12 +1,15 @@
-<!-- -*- coding: utf-8 -*- -->
+ECReviewBox
+============
 
 Overview
+---------
 
   ECReviewBox is a Plone product that implements peer reviews for
   assignments created with ECAssignmentBox.
 
 
 Download
+---------
 
   * "Project page":http://wwwai.cs.uni-magdeburg.de/software/
 
@@ -14,6 +17,7 @@ Download
 
 
 Prerequisites
+-----------------
 
   To use ECReviewBox you need a Plone 2.1.x or 2.5.x installation.  
   Check "plone.org":http://plone.org/products/plone for Plone's
@@ -25,6 +29,7 @@ Prerequisites
 
 
 Installation
+------------------
 
   If you have a suitable Zope/Plone installation, you can install
   ECReviewBox as follows:
@@ -40,14 +45,15 @@ Installation
   3. Use the 'portal_quickinstaller' of your Plone site in which you
      want to use ECReviewBox.
 
-
 Support
+------------------
 
   For questions and discussions about ECReviewBox, please join the
   "eduComponents mailing
   list":https://listserv.uni-magdeburg.de/mailman/listinfo/educomponents.
 
 Credits
+------------------
 
   ECReviewBox was written by "Mario
   Amelung":http://wwwai.cs.uni-magdeburg.de/Members/amelung and Marcel
@@ -59,6 +65,7 @@ Credits
   License":http://creativecommons.org/licenses/by/2.5/.
 
 License
+------------------
 
  ECReviewBox is licensed under the
  "GPL":http://opensource.org/licenses/gpl-license.
